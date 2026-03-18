@@ -1,5 +1,4 @@
-﻿```aspx
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IncomingRequests.aspx.cs" Inherits="COOLPALS_MP_FinalProject.Pages.IncomingRequests" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IncomingRequests.aspx.cs" Inherits="COOLPALS_MP_FinalProject.Pages.IncomingRequests" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -233,28 +232,71 @@
 
             <%-- GRID --%>
             <div class="grid-wrapper">
+                <h2>Current Requests</h2>
                 <asp:GridView ID="gvIncomingRequests" runat="server" AutoGenerateColumns="False"
-                    DataKeyNames="RequestID"
-                    OnRowCommand="gvIncomingRequests_RowCommand"
-                    GridLines="None">
+                    DataKeyNames="RequestID,Status"
+                    OnRowCommand="gvIncomingRequests_RowCommand">
                     <EmptyDataTemplate>
                         <div style="text-align:center; padding:48px 20px; color:rgba(255,255,255,0.28); font-style:italic;">
                             No incoming requests at the moment.
                         </div>
                     </EmptyDataTemplate>
                     <Columns>
-                        <asp:BoundField DataField="RequestID"   HeaderText="ID" />
+                        <asp:BoundField DataField="RequestID" HeaderText="ID" />
                         <asp:BoundField DataField="LearnerName" HeaderText="Learner" />
-                        <asp:BoundField DataField="SkillName"   HeaderText="Skill" />
-                        <asp:BoundField DataField="Message"     HeaderText="Message" />
+                        <asp:BoundField DataField="SkillName" HeaderText="Skill" />
+                        <asp:BoundField DataField="Message" HeaderText="Message" />
                         <asp:BoundField DataField="Availability" HeaderText="Availability" />
-                        <asp:BoundField DataField="Status"      HeaderText="Status" />
+                        <asp:BoundField DataField="Status" HeaderText="Status" />
                         <asp:BoundField DataField="RequestDate" HeaderText="Requested On" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
-                        <asp:ButtonField Text="Accept"   CommandName="AcceptRequest"   ButtonType="Button" />
-                        <asp:ButtonField Text="Decline"  CommandName="DeclineRequest"  ButtonType="Button" />
-                        <asp:ButtonField Text="Complete" CommandName="CompleteRequest" ButtonType="Button" />
+
+                        <asp:TemplateField HeaderText="Actions">
+                            <ItemTemplate>
+
+                                <!-- Accept -->
+                                <asp:Button ID="btnAccept" runat="server" Text="Accept"
+                                    CommandName="AcceptRequest"
+                                    CommandArgument='<%# Container.DataItemIndex %>'
+                                    Visible='<%# Eval("Status").ToString() == "Pending" %>' />
+
+                                <!-- Decline -->
+                                <asp:Button ID="btnDecline" runat="server" Text="Decline"
+                                    CommandName="DeclineRequest"
+                                    CommandArgument='<%# Container.DataItemIndex %>'
+                                    Visible='<%# Eval("Status").ToString() == "Pending" %>' />
+
+                                <!-- Complete -->
+                                <asp:Button ID="btnComplete" runat="server" Text="Complete"
+                                    CommandName="CompleteRequest"
+                                    CommandArgument='<%# Container.DataItemIndex %>'
+                                    Visible='<%# Eval("Status").ToString() == "Accepted" %>' />
+
+                                <!-- Cancel -->
+                                <asp:Button ID="btnCancel" runat="server" Text="Cancel"
+                                    CommandName="CancelRequest"
+                                    CommandArgument='<%# Container.DataItemIndex %>'
+                                    Visible='<%# Eval("Status").ToString() == "Accepted" %>' />
+
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+                </Columns>
+            </asp:GridView>
+
+                <h2>Request History</h2>
+                <asp:GridView ID="gvRequestHistory" runat="server"
+                    AutoGenerateColumns="False"
+                    DataKeyNames="RequestID">
+                    <Columns>
+                        <asp:BoundField DataField="LearnerName" HeaderText="Learner" />
+                        <asp:BoundField DataField="SkillName" HeaderText="Skill" />
+                        <asp:BoundField DataField="Message" HeaderText="Message" />
+                        <asp:BoundField DataField="Availability" HeaderText="Availability" />
+                        <asp:BoundField DataField="Status" HeaderText="Status" />
+                        <asp:BoundField DataField="RequestDate" HeaderText="Request Date" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
                     </Columns>
                 </asp:GridView>
+
             </div>
 
             <%-- FOOTER --%>

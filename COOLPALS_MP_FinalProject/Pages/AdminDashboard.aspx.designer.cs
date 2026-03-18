@@ -33,6 +33,51 @@ namespace COOLPALS_MP_FinalProject
         protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
+        /// btnUsersTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUsersTab;
+
+        /// <summary>
+        /// btnCategoriesTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCategoriesTab;
+
+        /// <summary>
+        /// lnkSkillsPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkSkillsPage;
+
+        /// <summary>
+        /// btnRequestsTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRequestsTab;
+
+        /// <summary>
+        /// pnlUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlUsers;
+
+        /// <summary>
         /// gvUsers control.
         /// </summary>
         /// <remarks>
@@ -40,6 +85,15 @@ namespace COOLPALS_MP_FinalProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvUsers;
+
+        /// <summary>
+        /// pnlCategories control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCategories;
 
         /// <summary>
         /// txtCategoryName control.
@@ -78,49 +132,13 @@ namespace COOLPALS_MP_FinalProject
         protected global::System.Web.UI.WebControls.GridView gvCategories;
 
         /// <summary>
-        /// txtSkillName control.
+        /// pnlRequests control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSkillName;
-
-        /// <summary>
-        /// ddlSkillCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSkillCategory;
-
-        /// <summary>
-        /// txtSkillDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSkillDescription;
-
-        /// <summary>
-        /// btnAddSkill control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddSkill;
-
-        /// <summary>
-        /// gvSkills control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvSkills;
+        protected global::System.Web.UI.WebControls.Panel pnlRequests;
 
         /// <summary>
         /// gvRequests control.

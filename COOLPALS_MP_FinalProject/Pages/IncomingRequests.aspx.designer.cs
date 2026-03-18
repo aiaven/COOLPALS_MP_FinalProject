@@ -51,6 +51,15 @@ namespace COOLPALS_MP_FinalProject.Pages
         protected global::System.Web.UI.WebControls.GridView gvIncomingRequests;
 
         /// <summary>
+        /// gvRequestHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvRequestHistory;
+
+        /// <summary>
         /// lnkBackHomeFooter control.
         /// </summary>
         /// <remarks>

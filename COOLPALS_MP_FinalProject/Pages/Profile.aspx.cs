@@ -44,6 +44,7 @@ namespace COOLPALS_MP_FinalProject
 
         private void SetEditMode(bool enabled)
         {
+            // Profile info follows Edit Profile mode
             txtFirstName.ReadOnly = !enabled;
             txtLastName.ReadOnly = !enabled;
             txtProgram.ReadOnly = !enabled;
@@ -53,6 +54,7 @@ namespace COOLPALS_MP_FinalProject
             fuProfilePic.Enabled = enabled;
             btnUploadPic.Enabled = enabled;
 
+            // Skills section stays usable
             ddlAvailableSkills.Enabled = enabled;
             ddlProficiency.Enabled = enabled;
             txtYearsExperience.ReadOnly = !enabled;
@@ -60,6 +62,7 @@ namespace COOLPALS_MP_FinalProject
             btnAddSkill.Enabled = enabled;
 
             gvUserSkills.Enabled = enabled;
+            gvUserSkills.Columns[5].Visible = enabled;
 
             btnEditProfile.Visible = !enabled;
             btnSave.Visible = enabled;
@@ -212,14 +215,14 @@ namespace COOLPALS_MP_FinalProject
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string query = @"
-                    SELECT SkillID, SkillName
-                    FROM Skills
-                    WHERE SkillID NOT IN (
-                        SELECT SkillID
-                        FROM UserSkills
-                        WHERE UserID = @UserID
-                    )
-                    ORDER BY SkillName";
+            SELECT SkillID, SkillName
+            FROM Skills
+            WHERE SkillID NOT IN (
+                SELECT SkillID
+                FROM UserSkills
+                WHERE UserID = @UserID
+            )
+            ORDER BY SkillName";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserID", userId);
@@ -234,6 +237,8 @@ namespace COOLPALS_MP_FinalProject
 
                 reader.Close();
             }
+
+            ddlAvailableSkills.Items.Insert(0, new ListItem("-- Select Skill --", ""));
         }
 
         private void LoadUserSkills(int userId)
@@ -281,7 +286,16 @@ namespace COOLPALS_MP_FinalProject
                 return;
             }
 
-            int skillId = Convert.ToInt32(ddlAvailableSkills.SelectedValue);
+            int skillId;
+
+            if (!int.TryParse(ddlAvailableSkills.SelectedValue, out skillId))
+            {
+                Session["ProfileMessage"] = "Please select a valid skill first.";
+                Session["ProfileMessageColor"] = "Red";
+                Response.Redirect("~/Pages/Profile.aspx");
+                return;
+            }
+
             string proficiency = ddlProficiency.SelectedValue;
             int yearsExperience = 0;
 
@@ -343,45 +357,70 @@ namespace COOLPALS_MP_FinalProject
         protected void UpdateSkill(object sender, GridViewUpdateEventArgs e)
         {
             int userSkillId = Convert.ToInt32(gvUserSkills.DataKeys[e.RowIndex].Value);
+            int userId = Convert.ToInt32(Session["UserID"]);
             GridViewRow row = gvUserSkills.Rows[e.RowIndex];
 
-            string proficiency = ((TextBox)row.Cells[1].Controls[0]).Text.Trim();
-            string yearsText = ((TextBox)row.Cells[2].Controls[0]).Text.Trim();
+            string proficiency = "";
+            string yearsText = "";
             int yearsExperience = 0;
-            int.TryParse(yearsText, out yearsExperience);
-
             bool canTutor = false;
-            foreach (Control control in row.Cells[3].Controls)
+
+            if (row.Cells.Count > 2 && row.Cells[2].Controls.Count > 0)
             {
-                if (control is CheckBox cb)
+                TextBox txtProficiency = row.Cells[2].Controls[0] as TextBox;
+                if (txtProficiency != null)
                 {
-                    canTutor = cb.Checked;
-                    break;
+                    proficiency = txtProficiency.Text.Trim();
+                }
+            }
+
+            if (row.Cells.Count > 3 && row.Cells[3].Controls.Count > 0)
+            {
+                TextBox txtYears = row.Cells[3].Controls[0] as TextBox;
+                if (txtYears != null)
+                {
+                    yearsText = txtYears.Text.Trim();
+                    int.TryParse(yearsText, out yearsExperience);
+                }
+            }
+
+            if (row.Cells.Count > 4)
+            {
+                foreach (Control control in row.Cells[4].Controls)
+                {
+                    if (control is CheckBox cb)
+                    {
+                        canTutor = cb.Checked;
+                        break;
+                    }
                 }
             }
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string query = @"
-                    UPDATE UserSkills
-                    SET ProficiencyLevel = @ProficiencyLevel,
-                        YearsExperience = @YearsExperience,
-                        CanTutor = @CanTutor
-                    WHERE UserSkillID = @UserSkillID";
+            UPDATE UserSkills
+            SET ProficiencyLevel = @ProficiencyLevel,
+                YearsExperience = @YearsExperience,
+                CanTutor = @CanTutor
+            WHERE UserSkillID = @UserSkillID
+              AND UserID = @UserID";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@ProficiencyLevel", proficiency);
                 cmd.Parameters.AddWithValue("@YearsExperience", yearsExperience == 0 ? (object)DBNull.Value : yearsExperience);
                 cmd.Parameters.AddWithValue("@CanTutor", canTutor);
                 cmd.Parameters.AddWithValue("@UserSkillID", userSkillId);
+                cmd.Parameters.AddWithValue("@UserID", userId);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
 
             gvUserSkills.EditIndex = -1;
-            LoadUserSkills(Convert.ToInt32(Session["UserID"]));
+            LoadUserSkills(userId);
 
+            lblMessage.Visible = true;
             lblMessage.ForeColor = System.Drawing.Color.Green;
             lblMessage.Text = "Skill updated successfully.";
         }

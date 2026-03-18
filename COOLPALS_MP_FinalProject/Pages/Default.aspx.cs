@@ -41,32 +41,55 @@ namespace COOLPALS_MP_FinalProject
             btnRegister.Visible = true;
             btnLogin.Visible = true;
 
-            btnAddSkills.Visible = false;
             btnProfile.Visible = false;
             btnTutors.Visible = false;
             btnRequests.Visible = false;
+
+            divBtnRow.Visible = true;
+            divNewUserCard.Visible = false;
+            divReturningCard.Visible = false;
         }
 
         private void ShowNewUserView(string firstName)
         {
             lblMessage.Text = $"Welcome to PairEd, {firstName}! Let's set up your profile by adding your first skill.";
-            btnAddSkills.Visible = true;
-
             btnRegister.Visible = false;
             btnLogin.Visible = false;
+
+            btnProfile.Visible = true;
+            btnTutors.Visible = false;
+            btnRequests.Visible = false;
+
+            divBtnRow.Visible = false;
+            divNewUserCard.Visible = true;
+            divReturningCard.Visible = false;
         }
 
         private void ShowReturningUserView(string firstName)
         {
             lblMessage.Text = $"Welcome back, {firstName}! Choose an option below.";
-            btnProfile.Visible = true;
-            btnTutors.Visible = true;
-            btnRequests.Visible = true;
-            btnAddSkills.Visible = true;
-
 
             btnRegister.Visible = false;
             btnLogin.Visible = false;
+
+            btnProfile.Visible = true;
+            btnTutors.Visible = true;
+            btnRequests.Visible = true;
+
+            if (UserCanTutor(Convert.ToInt32(Session["UserID"])))
+            {
+                btnRequests.Text = "📥  Incoming Requests";
+                btnRequests.PostBackUrl = "~/Pages/IncomingRequests.aspx";
+            }
+            else
+            {
+                btnRequests.Text = "📋  My Requests";
+                btnRequests.PostBackUrl = "~/Pages/SessionHistory.aspx";
+            }
+
+            divBtnRow.Visible = false;
+            divNewUserCard.Visible = false;
+            divReturningCard.Visible = true;
         }
 
         protected void RegisterUser(object sender, EventArgs e)
@@ -114,6 +137,30 @@ namespace COOLPALS_MP_FinalProject
                     conn.Open();
                     int count = (int)cmd.ExecuteScalar();
                     return count == 0; // New user if no skills yet
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool UserCanTutor(int userId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = @"SELECT COUNT(*)
+                             FROM UserSkills
+                             WHERE UserID = @UserID AND CanTutor = 1";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
+
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
                 }
             }
             catch

@@ -13,16 +13,28 @@ namespace COOLPALS_MP_FinalProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserID"] == null)
+            {
+                Response.Redirect("~/Pages/Login.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
-                if (Session["UserID"] == null)
+                bool isAdmin = Session["Role"] != null && Session["Role"].ToString() == "Admin";
+
+                if (isAdmin)
                 {
-                    Response.Redirect("~/Pages/Login.aspx");
+                    lnkBackProfile.NavigateUrl = "~/Pages/AdminDashboard.aspx";
+                    lnkBackProfile.Text = "← Back to Admin Dashboard";
                 }
                 else
                 {
-                    LoadAvailableSkills();
+                    lnkBackProfile.NavigateUrl = "~/Pages/Profile.aspx";
+                    lnkBackProfile.Text = "← Back to My Profile";
                 }
+
+                LoadAvailableSkills();
             }
         }
 

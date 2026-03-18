@@ -13,14 +13,12 @@ namespace COOLPALS_MP_FinalProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Check if logged in
             if (Session["UserID"] == null)
             {
                 Response.Redirect("~/Pages/Login.aspx");
                 return;
             }
 
-            //Check if admin
             if (Session["Role"] == null || Session["Role"].ToString() != "Admin")
             {
                 Response.Redirect("~/Pages/Default.aspx");
@@ -31,10 +29,31 @@ namespace COOLPALS_MP_FinalProject
             {
                 LoadUsers();
                 LoadCategories();
-                LoadSkills();
                 LoadRequests();
-                LoadCategoryDropdown();
+                ShowTab("Users");
             }
+        }
+
+        private void ShowTab(string tabName)
+        {
+            pnlUsers.Visible = tabName == "Users";
+            pnlCategories.Visible = tabName == "Categories";
+            pnlRequests.Visible = tabName == "Requests";
+        }
+
+        protected void ShowUsersTab(object sender, EventArgs e)
+        {
+            ShowTab("Users");
+        }
+
+        protected void ShowCategoriesTab(object sender, EventArgs e)
+        {
+            ShowTab("Categories");
+        }
+
+        protected void ShowRequestsTab(object sender, EventArgs e)
+        {
+            ShowTab("Requests");
         }
 
         private void ShowMessage(string message, bool isError = false)
@@ -75,49 +94,6 @@ namespace COOLPALS_MP_FinalProject
             }
         }
 
-        private void LoadCategoryDropdown()
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string query = @"SELECT CategoryID, CategoryName
-                                 FROM SkillCategories
-                                 ORDER BY CategoryName";
-
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                ddlSkillCategory.DataSource = dt;
-                ddlSkillCategory.DataTextField = "CategoryName";
-                ddlSkillCategory.DataValueField = "CategoryID";
-                ddlSkillCategory.DataBind();
-            }
-        }
-
-        private void LoadSkills()
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string query = @"SELECT 
-                                    s.SkillID,
-                                    s.SkillName,
-                                    s.CategoryID,
-                                    sc.CategoryName,
-                                    s.Description
-                                 FROM Skills s
-                                 INNER JOIN SkillCategories sc
-                                    ON s.CategoryID = sc.CategoryID
-                                 ORDER BY s.SkillID";
-
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                gvSkills.DataSource = dt;
-                gvSkills.DataBind();
-            }
-        }
-
         private void LoadRequests()
         {
             using (SqlConnection conn = new SqlConnection(connString))
@@ -147,20 +123,18 @@ namespace COOLPALS_MP_FinalProject
             }
         }
 
-        // =========================
-        // USERS
-        // =========================
-
         protected void gvUsers_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvUsers.EditIndex = e.NewEditIndex;
             LoadUsers();
+            ShowTab("Users");
         }
 
         protected void gvUsers_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvUsers.EditIndex = -1;
             LoadUsers();
+            ShowTab("Users");
         }
 
         protected void gvUsers_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -199,11 +173,19 @@ namespace COOLPALS_MP_FinalProject
             gvUsers.EditIndex = -1;
             LoadUsers();
             ShowMessage("User updated successfully.");
+            ShowTab("Users");
         }
 
         protected void gvUsers_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int userId = Convert.ToInt32(gvUsers.DataKeys[e.RowIndex].Value);
+
+            if (userId == Convert.ToInt32(Session["UserID"]))
+            {
+                ShowMessage("You cannot deactivate your own admin account.", true);
+                ShowTab("Users");
+                return;
+            }
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -220,11 +202,8 @@ namespace COOLPALS_MP_FinalProject
 
             LoadUsers();
             ShowMessage("User deactivated successfully.");
+            ShowTab("Users");
         }
-
-        // =========================
-        // CATEGORIES
-        // =========================
 
         protected void btnAddCategory_Click(object sender, EventArgs e)
         {
@@ -234,6 +213,7 @@ namespace COOLPALS_MP_FinalProject
             if (string.IsNullOrWhiteSpace(categoryName))
             {
                 ShowMessage("Category name is required.", true);
+                ShowTab("Categories");
                 return;
             }
 
@@ -254,20 +234,22 @@ namespace COOLPALS_MP_FinalProject
             txtCategoryDescription.Text = "";
 
             LoadCategories();
-            LoadCategoryDropdown();
             ShowMessage("Category added successfully.");
+            ShowTab("Categories");
         }
 
         protected void gvCategories_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvCategories.EditIndex = e.NewEditIndex;
             LoadCategories();
+            ShowTab("Categories");
         }
 
         protected void gvCategories_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvCategories.EditIndex = -1;
             LoadCategories();
+            ShowTab("Categories");
         }
 
         protected void gvCategories_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -296,9 +278,8 @@ namespace COOLPALS_MP_FinalProject
 
             gvCategories.EditIndex = -1;
             LoadCategories();
-            LoadCategoryDropdown();
-            LoadSkills();
             ShowMessage("Category updated successfully.");
+            ShowTab("Categories");
         }
 
         protected void gvCategories_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -317,6 +298,7 @@ namespace COOLPALS_MP_FinalProject
                 if (count > 0)
                 {
                     ShowMessage("Cannot delete category because it is used by existing skills.", true);
+                    ShowTab("Categories");
                     return;
                 }
 
@@ -327,138 +309,22 @@ namespace COOLPALS_MP_FinalProject
             }
 
             LoadCategories();
-            LoadCategoryDropdown();
             ShowMessage("Category deleted successfully.");
+            ShowTab("Categories");
         }
-
-        // =========================
-        // SKILLS
-        // =========================
-
-        protected void btnAddSkill_Click(object sender, EventArgs e)
-        {
-            string skillName = txtSkillName.Text.Trim();
-            string description = txtSkillDescription.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(skillName))
-            {
-                ShowMessage("Skill name is required.", true);
-                return;
-            }
-
-            int categoryId = Convert.ToInt32(ddlSkillCategory.SelectedValue);
-
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string query = @"INSERT INTO Skills (SkillName, CategoryID, Description)
-                                 VALUES (@SkillName, @CategoryID, @Description)";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@SkillName", skillName);
-                cmd.Parameters.AddWithValue("@CategoryID", categoryId);
-                cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-
-            txtSkillName.Text = "";
-            txtSkillDescription.Text = "";
-
-            LoadSkills();
-            ShowMessage("Skill added successfully.");
-        }
-
-        protected void gvSkills_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            gvSkills.EditIndex = e.NewEditIndex;
-            LoadSkills();
-        }
-
-        protected void gvSkills_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-        {
-            gvSkills.EditIndex = -1;
-            LoadSkills();
-        }
-
-        protected void gvSkills_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
-            int skillId = Convert.ToInt32(gvSkills.DataKeys[e.RowIndex].Value);
-            GridViewRow row = gvSkills.Rows[e.RowIndex];
-
-            string skillName = ((TextBox)row.Cells[1].Controls[0]).Text.Trim();
-            string description = ((TextBox)row.Cells[3].Controls[0]).Text.Trim();
-
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string query = @"UPDATE Skills
-                                 SET SkillName = @SkillName,
-                                     Description = @Description
-                                 WHERE SkillID = @SkillID";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@SkillName", skillName);
-                cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? (object)DBNull.Value : description);
-                cmd.Parameters.AddWithValue("@SkillID", skillId);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-
-            gvSkills.EditIndex = -1;
-            LoadSkills();
-            ShowMessage("Skill updated successfully.");
-        }
-
-        protected void gvSkills_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            int skillId = Convert.ToInt32(gvSkills.DataKeys[e.RowIndex].Value);
-
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string checkUserSkills = "SELECT COUNT(*) FROM UserSkills WHERE SkillID = @SkillID";
-                string checkRequests = "SELECT COUNT(*) FROM LearningRequests WHERE SkillID = @SkillID";
-
-                conn.Open();
-
-                SqlCommand cmd1 = new SqlCommand(checkUserSkills, conn);
-                cmd1.Parameters.AddWithValue("@SkillID", skillId);
-                int userSkillCount = (int)cmd1.ExecuteScalar();
-
-                SqlCommand cmd2 = new SqlCommand(checkRequests, conn);
-                cmd2.Parameters.AddWithValue("@SkillID", skillId);
-                int requestCount = (int)cmd2.ExecuteScalar();
-
-                if (userSkillCount > 0 || requestCount > 0)
-                {
-                    ShowMessage("Cannot delete skill because it is already used in user skills or requests.", true);
-                    return;
-                }
-
-                string deleteQuery = "DELETE FROM Skills WHERE SkillID = @SkillID";
-                SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn);
-                deleteCmd.Parameters.AddWithValue("@SkillID", skillId);
-                deleteCmd.ExecuteNonQuery();
-            }
-
-            LoadSkills();
-            ShowMessage("Skill deleted successfully.");
-        }
-
-        // =========================
-        // REQUESTS
-        // =========================
 
         protected void gvRequests_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvRequests.EditIndex = e.NewEditIndex;
             LoadRequests();
+            ShowTab("Requests");
         }
 
         protected void gvRequests_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvRequests.EditIndex = -1;
             LoadRequests();
+            ShowTab("Requests");
         }
 
         protected void gvRequests_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -471,6 +337,7 @@ namespace COOLPALS_MP_FinalProject
             if (status != "Pending" && status != "Accepted" && status != "Declined" && status != "Cancelled" && status != "Completed")
             {
                 ShowMessage("Invalid status. Use only Pending, Accepted, Declined, Cancelled, or Completed.", true);
+                ShowTab("Requests");
                 return;
             }
 
@@ -503,6 +370,7 @@ namespace COOLPALS_MP_FinalProject
             gvRequests.EditIndex = -1;
             LoadRequests();
             ShowMessage("Request updated successfully.");
+            ShowTab("Requests");
         }
 
         protected void gvRequests_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -521,8 +389,7 @@ namespace COOLPALS_MP_FinalProject
 
             LoadRequests();
             ShowMessage("Request deleted successfully.");
+            ShowTab("Requests");
         }
-
     }
 }
-

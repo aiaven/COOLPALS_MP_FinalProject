@@ -3,19 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>PairEd - Request Tutoring Session</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
+        /* ── RESET ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow: hidden; }
+        html, body { height: 100%; }
 
+        /* ── BASE ── */
         body {
             font-family: 'DM Sans', sans-serif;
             background: #0D1B3E;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* NAV */
+        /* ── NAV ── */
         .nav {
             display: flex;
             align-items: center;
@@ -25,11 +28,8 @@
             background: #0D1B3E;
             border-bottom: 1px solid rgba(255,255,255,0.07);
             flex-shrink: 0;
-            position: relative;
-            z-index: 10;
         }
         .nav-brand { display: flex; align-items: center; gap: 16px; }
-        .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -47,72 +47,91 @@
             font-weight: 500;
         }
 
-        /* PAGE */
+        /* ── PAGE LAYOUT ── */
         .page {
             flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 420px;
             overflow: hidden;
-            height: calc(100vh - 78px);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        .page-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(140deg, rgba(13,27,62,0.88) 0%, rgba(13,27,62,0.65) 60%, rgba(13,27,62,0.50) 100%);
-            z-index: 0;
         }
 
-        /* CENTERED INNER */
-        .page-inner {
-            position: relative;
-            z-index: 1;
+        /* ── LEFT PANEL ── */
+        .left {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            width: 100%;
+            padding: 72px 110px;
+            overflow-y: auto;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(204,0,0,0.18);
+            border: 1px solid rgba(204,0,0,0.40);
+            color: #FF8080;
+            font-family: 'Sora', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 7px 18px;
+            border-radius: 99px;
+            margin-bottom: 28px;
+        }
+        .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #CC0000; }
+        .left h1 {
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.4rem, 4vw, 3.8rem);
+            color: #fff;
+            line-height: 1.06;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+        .left h1 em { color: #CC0000; font-style: normal; }
+        .left-desc {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.80;
+            max-width: 480px;
         }
 
-        /* FLOATING CARD */
-        .card {
+        /* ── RIGHT PANEL ── */
+        .right {
             background: #F5F4F0;
-            border-radius: 20px;
-            padding: 36px 48px;
-            width: 100%;
-            max-width: 640px;
-            border: 1px solid #E0DED8;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.18);
-            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 52px 48px;
+            border-left: 1px solid #E0DED8;
+            overflow-y: auto;
         }
-
-        /* CARD HEADER */
+        .right-inner { width: 100%; max-width: 340px; }
         .right-accent {
             width: 44px;
             height: 4px;
             background: #CC0000;
             border-radius: 2px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         .right-heading {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
-            font-size: 1.65rem;
+            font-size: 1.55rem;
             color: #0D1B3E;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
         .right-sub {
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             color: #8A8A8A;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
             line-height: 1.65;
         }
 
-        /* MESSAGE LABEL */
+        /* ── MESSAGE LABEL ── */
         .msg-label {
             display: block;
             font-family: 'Sora', sans-serif;
@@ -123,28 +142,18 @@
             border: 1px solid rgba(204,0,0,0.25);
             border-radius: 8px;
             padding: 10px 14px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
-        /* TWO-COLUMN FIELDS */
-        .fields-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .fields-grid .field-full {
-            grid-column: span 2;
-        }
-
-        /* FORM FIELDS */
-        .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0; }
+        /* ── FORM FIELDS ── */
+        .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
         .field label {
             font-family: 'Sora', sans-serif;
-            font-size: 0.68rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            color: #0D1B3E;
+            color: #6B6B6B;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.10em;
         }
         .field input[type="text"],
         .field input[type="date"],
@@ -152,43 +161,24 @@
         .field select,
         .field textarea {
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.93rem;
+            font-size: 0.95rem;
             color: #0D1B3E;
             background: #fff;
-            border: 1.5px solid #D5D0C8;
+            border: 1px solid #D8D6D0;
             border-radius: 10px;
             padding: 11px 14px;
             width: 100%;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.2s;
             resize: none;
         }
-        .field input[readonly] { background: #F5F4F0; color: #AEAAA3; cursor: not-allowed; }
+        .field input[readonly] { background: #F0EFEB; color: #999; cursor: not-allowed; }
         .field input:focus,
         .field select:focus,
-        .field textarea:focus {
-            border-color: #CC0000;
-            box-shadow: 0 0 0 3px rgba(204,0,0,0.10);
-        }
-        .field select {
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-        }
+        .field textarea:focus { border-color: #CC0000; }
+        .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
 
-        /* BUTTONS ROW */
-        .btn-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        .btn-row-full {
-            margin-top: 14px;
-        }
-
+        /* ── BUTTONS ── */
         .btn-block {
             display: block;
             width: 100%;
@@ -197,7 +187,7 @@
             border-radius: 10px;
             font-family: 'Sora', sans-serif;
             font-weight: 700;
-            font-size: 1.02rem;
+            font-size: 0.97rem;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
@@ -208,39 +198,40 @@
             background: #CC0000;
             color: #fff;
             box-shadow: 0 4px 18px rgba(204,0,0,0.28);
+            margin-bottom: 10px;
         }
         .btn-red:hover { background: #A80000; }
         .btn-navy {
             background: #0D1B3E;
             color: #fff;
+            margin-bottom: 10px;
         }
         .btn-navy:hover { background: #162348; }
 
-        /* DIVIDER */
+        /* ── DIVIDER ── */
         .divider-line {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 14px 0 0;
+            margin: 4px 0 10px;
             color: #C0BEB9;
-            font-size: 0.80rem;
+            font-size: 0.78rem;
         }
         .divider-line::before, .divider-line::after {
             content: ''; flex: 1;
             height: 1px; background: #E0DED8;
         }
 
-        /* BOTTOM BRAND */
+        /* ── BOTTOM BRAND ── */
         .right-bottom-brand {
-            margin-top: 20px;
-            padding-top: 16px;
+            margin-top: 28px;
+            padding-top: 20px;
             border-top: 1px solid #E0DED8;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
-        .right-bottom-brand img { height: 28px; width: auto; opacity: 0.28; }
         .right-bottom-brand span {
             font-family: 'Sora', sans-serif;
             font-size: 0.68rem;
@@ -253,93 +244,95 @@
 <body>
     <form id="form1" runat="server">
 
-        <!-- NAV -->
-        <div class="nav">
+        <%-- NAV --%>
+        <nav class="nav">
             <div class="nav-brand">
-                <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
                 <span class="nav-site-name">Pair<span>Ed</span></span>
+                <span class="nav-tag">Peer Tutoring</span>
             </div>
-            <span class="nav-tag">Student Skill-Sharing Platform</span>
-        </div>
+        </nav>
 
-        <!-- PAGE -->
-        <div class="page" style='background-image: url("<%= ResolveUrl("~/Images/backphoto.jpg") %>"); background-size: cover; background-position: center;'>
-            <div class="page-overlay"></div>
+        <%-- PAGE --%>
+        <div class="page">
 
-            <div class="page-inner">
+            <%-- LEFT: INFO --%>
+            <div class="left">
+                <div>
+                    <div class="badge"><span class="badge-dot"></span> New Request</div>
+                    <h1>Book a <em>Session</em></h1>
+                    <p class="left-desc">
+                        Fill out the form to request a peer tutoring session.
+                        Your tutor will be notified and confirm the schedule.
+                    </p>
+                </div>
+            </div>
 
-                <!-- FLOATING CARD -->
-                <div class="card">
+            <%-- RIGHT: FORM --%>
+            <div class="right">
+                <div class="right-inner">
+
                     <div class="right-accent"></div>
                     <div class="right-heading">Session Details</div>
                     <div class="right-sub">All fields are required unless noted.</div>
 
-                    <!-- MESSAGE -->
+                    <%-- MESSAGE --%>
                     <asp:Label ID="lblMessage" runat="server" CssClass="msg-label" />
 
-                    <!-- TWO-COLUMN FIELDS GRID -->
-                    <div class="fields-grid">
-
-                        <!-- TUTOR -->
-                        <div class="field field-full">
-                            <asp:Label ID="lblTutor" runat="server" Text="Tutor" AssociatedControlID="txtTutor" />
-                            <asp:TextBox ID="txtTutor" runat="server" ReadOnly="true" />
-                        </div>
-
-                        <!-- SKILL -->
-                        <div class="field field-full">
-                            <asp:Label ID="lblSkill" runat="server" Text="Skill" AssociatedControlID="ddlSkill" />
-                            <asp:DropDownList ID="ddlSkill" runat="server" />
-                        </div>
-
-                        <!-- DATE -->
-                        <div class="field">
-                            <asp:Label ID="lblDate" runat="server" Text="Requested Date" AssociatedControlID="txtDate" />
-                            <asp:TextBox ID="txtDate" runat="server" TextMode="Date" />
-                        </div>
-
-                        <!-- TIME -->
-                        <div class="field">
-                            <asp:Label ID="lblTime" runat="server" Text="Requested Time" AssociatedControlID="txtTime" />
-                            <asp:TextBox ID="txtTime" runat="server" TextMode="Time" />
-                        </div>
-
-                        <!-- NOTES -->
-                        <div class="field field-full">
-                            <asp:Label ID="lblNotes" runat="server" Text="Notes (optional)" AssociatedControlID="txtNotes" />
-                            <asp:TextBox ID="txtNotes" runat="server" TextMode="MultiLine" Rows="2" />
-                        </div>
-
+                    <%-- TUTOR --%>
+                    <div class="field">
+                        <asp:Label ID="lblTutor" runat="server" Text="Tutor" AssociatedControlID="txtTutor" />
+                        <asp:TextBox ID="txtTutor" runat="server" ReadOnly="true" />
                     </div>
 
-                    <!-- SUBMIT -->
-                    <div class="btn-row-full">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Submit Request"
-                            OnClick="SubmitRequest" CssClass="btn-block btn-red" />
+                    <%-- SKILL --%>
+                    <div class="field">
+                        <asp:Label ID="lblSkill" runat="server" Text="Skill" AssociatedControlID="ddlSkill" />
+                        <asp:DropDownList ID="ddlSkill" runat="server" />
                     </div>
+
+                    <%-- DATE --%>
+                    <div class="field">
+                        <asp:Label ID="lblDate" runat="server" Text="Requested Date" AssociatedControlID="txtDate" />
+                        <asp:TextBox ID="txtDate" runat="server" TextMode="Date" />
+                    </div>
+
+                    <%-- TIME --%>
+                    <div class="field">
+                        <asp:Label ID="lblTime" runat="server" Text="Requested Time" AssociatedControlID="txtTime" />
+                        <asp:TextBox ID="txtTime" runat="server" TextMode="Time" />
+                    </div>
+
+                    <%-- NOTES --%>
+                    <div class="field">
+                        <asp:Label ID="lblNotes" runat="server" Text="Notes (optional)" AssociatedControlID="txtNotes" />
+                        <asp:TextBox ID="txtNotes" runat="server" TextMode="MultiLine" Rows="4" />
+                    </div>
+
+                    <%-- SUBMIT --%>
+                    <asp:Button ID="btnSubmit" runat="server" Text="Submit Request"
+                        OnClick="SubmitRequest" CssClass="btn-block btn-red" />
 
                     <div class="divider-line">or</div>
 
-                    <!-- BOTTOM BUTTONS -->
-                    <div class="btn-row">
-                        <asp:HyperLink ID="lnkBackTutor" runat="server"
-                            NavigateUrl="~/Pages/Tutors.aspx"
-                            Text="View Tutors"
-                            CssClass="btn-block btn-navy" />
-                        <asp:Button ID="btnBack" runat="server" Text="Go to Dashboard"
-                            PostBackUrl="~/Pages/Default.aspx"
-                            CssClass="btn-block btn-navy" />
-                    </div>
+                    <%-- BACK TO TUTORS --%>
+                    <asp:HyperLink ID="lnkBackTutor" runat="server"
+                        NavigateUrl="~/Pages/Tutors.aspx"
+                        Text="← Back to Tutors"
+                        CssClass="btn-block btn-navy" />
+
+                    <%-- BACK TO HOME --%>
+                    <asp:Button ID="btnBack" runat="server" Text="Go to Dashboard"
+                        PostBackUrl="~/Pages/Default.aspx"
+                        CssClass="btn-block btn-navy" />
 
                     <div class="right-bottom-brand">
-                        <img src='<%= ResolveUrl("~/Images/PairEdLogo.png") %>' alt="PairEd" />
-                        <span>For enrolled students only · Safe &amp; school-monitored · © 2025 PairEd · COOLPALS Final Project</span>
+                        <span>PairEd &mdash; Peer Tutoring Platform<br />Powered by COOLPALS</span>
                     </div>
+
                 </div>
-
             </div>
-        </div>
 
+        </div>
     </form>
 </body>
 </html>

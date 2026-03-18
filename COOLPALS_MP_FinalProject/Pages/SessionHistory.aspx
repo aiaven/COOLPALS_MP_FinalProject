@@ -5,9 +5,11 @@
     <title>PairEd - Session History</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
+        /* ── RESET ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; }
 
+        /* ── BASE ── */
         body {
             font-family: 'DM Sans', sans-serif;
             background: #0D1B3E;
@@ -16,7 +18,7 @@
             min-height: 100vh;
         }
 
-        /* NAV */
+        /* ── NAV ── */
         .nav {
             display: flex;
             align-items: center;
@@ -28,7 +30,6 @@
             flex-shrink: 0;
         }
         .nav-brand { display: flex; align-items: center; gap: 16px; }
-        .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -58,10 +59,10 @@
         }
         .nav-right a:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
 
-        /* PAGE BODY */
+        /* ── PAGE BODY ── */
         .page-body { flex: 1; padding: 52px 72px; overflow-y: auto; }
 
-        /* PAGE HEADER */
+        /* ── PAGE HEADER ── */
         .page-header { margin-bottom: 36px; }
         .badge {
             display: inline-flex;
@@ -96,7 +97,7 @@
             line-height: 1.7;
         }
 
-        /* WHITE CARD */
+        /* ── WHITE CARD ── */
         .card {
             background: #F5F4F0;
             border-radius: 18px;
@@ -105,7 +106,7 @@
             margin-bottom: 24px;
         }
         .card-accent {
-            width: 44px; height: 4px;
+            width: 36px; height: 3px;
             background: #CC0000;
             border-radius: 2px;
             margin-bottom: 14px;
@@ -119,7 +120,7 @@
             margin-bottom: 24px;
         }
 
-        /* GRID */
+        /* ── GRID ── */
         .grid-wrapper {
             background: #fff;
             border: 1px solid #E0DED8;
@@ -149,7 +150,7 @@
         .grid-wrapper tr:last-child td { border-bottom: none; }
         .grid-wrapper tr:hover td { background: #F9F8F6; }
 
-        /* FOOTER */
+        /* ── FOOTER ── */
         .footer-actions { display: flex; align-items: center; gap: 12px; }
         .btn-back {
             font-family: 'Sora', sans-serif;
@@ -169,32 +170,28 @@
 </head>
 <body>
     <form id="form1" runat="server">
-
-        <!-- NAV -->
         <nav class="nav">
             <div class="nav-brand">
-                <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
                 <span class="nav-site-name">Pair<span>Ed</span></span>
+                <span class="nav-tag">Peer Tutoring</span>
             </div>
             <div class="nav-right">
+                <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Pages/Default.aspx" Text="← Back to Home" />
             </div>
         </nav>
-
         <div class="page-body">
-
-            <!-- PAGE HEADER -->
             <div class="page-header">
                 <div class="badge"><span class="badge-dot"></span> My Activity</div>
                 <h2>Session <em>History</em></h2>
                 <p>A full log of your tutoring requests and their current status.</p>
             </div>
-
-            <!-- CARD -->
             <div class="card">
                 <div class="card-accent"></div>
                 <div class="card-title">My Requests</div>
                 <div class="grid-wrapper">
-                    <asp:GridView ID="gvHistory" runat="server" AutoGenerateColumns="False" GridLines="None">
+                    <asp:GridView ID="gvHistory" runat="server" AutoGenerateColumns="False" GridLines="None"
+                        DataKeyNames="RequestID"
+                        OnRowCommand="gvHistory_RowCommand">
                         <EmptyDataTemplate>
                             <div style="text-align:center; padding:48px 20px; color:#C0BEB9; font-style:italic;">
                                 No session history found.
@@ -210,19 +207,24 @@
                             <asp:BoundField DataField="ResponseDate"  HeaderText="Responded On"  DataFormatString="{0:yyyy-MM-dd HH:mm}" />
                             <asp:BoundField DataField="CompletedDate" HeaderText="Completed On"  DataFormatString="{0:yyyy-MM-dd HH:mm}" />
                             <asp:BoundField DataField="CancelledDate" HeaderText="Cancelled On"  DataFormatString="{0:yyyy-MM-dd HH:mm}" />
+                        <asp:TemplateField HeaderText="Actions">
+                            <ItemTemplate>
+                                <asp:Button 
+                                    ID="btnCancel" 
+                                    runat="server" 
+                                    Text="Cancel"
+                                    CommandName="CancelRequest"
+                                    CommandArgument='<%# Container.DataItemIndex %>'
+                                    Visible='<%# Eval("Status").ToString() == "Pending" || Eval("Status").ToString() == "Accepted" %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
                 </div>
             </div>
-
-            <!-- FOOTER -->
             <div class="footer-actions">
-                <asp:HyperLink ID="lnkBackHomeFooter" runat="server"
-                    NavigateUrl="~/Pages/Default.aspx"
-                    Text="← Back to Home"
-                    CssClass="btn-back" />
+                <asp:HyperLink ID="lnkBackHomeFooter" runat="server" NavigateUrl="~/Pages/Default.aspx" Text="← Back to Home" CssClass="btn-back" />
             </div>
-
         </div>
     </form>
 </body>

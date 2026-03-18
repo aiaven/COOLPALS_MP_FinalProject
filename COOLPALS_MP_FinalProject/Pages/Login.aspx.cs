@@ -39,10 +39,20 @@ namespace COOLPALS_MP_FinalProject
 
             if (userId > 0)
             {
+                string role = GetUserRole(userId);
+
                 // Successful login
                 Session["UserID"] = userId;
-                Session["Role"] = GetUserRole(userId);
-                Response.Redirect("~/Pages/Default.aspx");
+                Session["Role"] = role;
+
+                if (role == "Admin")
+                {
+                    Response.Redirect("~/Pages/AdminDashboard.aspx");
+                }
+                else
+                {
+                    Response.Redirect("~/Pages/Default.aspx");
+                }
             }
             else
             {
@@ -60,14 +70,19 @@ namespace COOLPALS_MP_FinalProject
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string query = "SELECT Role FROM Users WHERE UserID = @UserID";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserID", userId);
 
-                conn.Open();
-                object result = cmd.ExecuteScalar();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", userId);
 
-                if (result != null)
-                    role = result.ToString();
+                    conn.Open();
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        role = result.ToString();
+                    }
+                }
             }
 
             return role;
