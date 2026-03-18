@@ -436,7 +436,7 @@
                             </div>
                         </a>
 
-                        <a href='<%= ResolveUrl("~/Pages/Requests.aspx") %>' class="big-nav-card">
+                        <a href='<%= ResolveUrl("~/Pages/IncomingRequests.aspx") %>' class="big-nav-card">
                             <div class="bnc-icon">📋</div>
                             <div class="bnc-body">
                                 <div class="bnc-title">Requests</div>
