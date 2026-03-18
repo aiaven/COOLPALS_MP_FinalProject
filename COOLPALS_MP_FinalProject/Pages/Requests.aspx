@@ -291,13 +291,23 @@
                         <!-- DATE -->
                         <div class="field">
                             <asp:Label ID="lblDate" runat="server" Text="Requested Date" AssociatedControlID="txtDate" />
-                            <asp:TextBox ID="txtDate" runat="server" TextMode="Date" />
+                            <asp:TextBox ID="txtDate" runat="server" TextMode="Date"
+                                AutoPostBack="true"
+                                OnTextChanged="txtDate_TextChanged" />
+                            <asp:Label ID="lblDateError" runat="server" ForeColor="Red" />
                         </div>
 
                         <!-- TIME -->
                         <div class="field">
-                            <asp:Label ID="lblTime" runat="server" Text="Requested Time" AssociatedControlID="txtTime" />
-                            <asp:TextBox ID="txtTime" runat="server" TextMode="Time" />
+                            <asp:Label ID="lblTime" runat="server" Text="Requested Time" />
+
+                            <div style="display:flex; gap:8px;">
+                                <asp:DropDownList ID="ddlHour" runat="server" style="flex:1;" />
+                                <asp:DropDownList ID="ddlMinute" runat="server" style="flex:1;" />
+                                <asp:DropDownList ID="ddlPeriod" runat="server" style="flex:1;" />
+                            </div>
+
+                            <asp:Label ID="lblTimeError" runat="server" ForeColor="Red" />
                         </div>
 
                         <!-- NOTES -->

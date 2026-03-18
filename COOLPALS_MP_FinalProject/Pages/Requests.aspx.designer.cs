@@ -87,6 +87,15 @@ namespace COOLPALS_MP_FinalProject
         protected global::System.Web.UI.WebControls.TextBox txtDate;
 
         /// <summary>
+        /// lblDateError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDateError;
+
+        /// <summary>
         /// lblTime control.
         /// </summary>
         /// <remarks>
@@ -96,13 +105,40 @@ namespace COOLPALS_MP_FinalProject
         protected global::System.Web.UI.WebControls.Label lblTime;
 
         /// <summary>
-        /// txtTime control.
+        /// ddlHour control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTime;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHour;
+
+        /// <summary>
+        /// ddlMinute control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMinute;
+
+        /// <summary>
+        /// ddlPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPeriod;
+
+        /// <summary>
+        /// lblTimeError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTimeError;
 
         /// <summary>
         /// lblNotes control.
