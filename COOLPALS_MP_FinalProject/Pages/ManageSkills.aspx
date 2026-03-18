@@ -16,7 +16,6 @@
             color: #0D1B3E;
         }
 
-        /* NAV */
         .nav {
             display: flex;
             align-items: center;
@@ -49,17 +48,13 @@
             font-weight: 500;
         }
 
-        /* PAGE BODY */
         .page-body {
             min-height: calc(100vh - 78px);
             background: #F5F4F0;
             padding: 52px 72px;
         }
 
-        /* PAGE HEADER */
-        .page-header {
-            margin-bottom: 36px;
-        }
+        .page-header { margin-bottom: 36px; }
         .page-header-accent {
             width: 44px;
             height: 4px;
@@ -81,19 +76,18 @@
             line-height: 1.65;
         }
 
-        /* DIVIDER */
         .divider {
             height: 1px;
             background: #E0DED8;
             margin-bottom: 32px;
         }
 
-        /* SEARCH BAR */
         .search-bar {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 36px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
         }
         .search-label {
             font-family: 'Sora', sans-serif;
@@ -104,7 +98,7 @@
             color: #0D1B3E;
             white-space: nowrap;
         }
-        .search-input {
+        .search-input, .form-input, .form-dropdown, .form-textarea {
             padding: 11px 16px;
             border: 1.5px solid #D5D0C8;
             border-radius: 10px;
@@ -113,30 +107,57 @@
             color: #0D1B3E;
             background: #fff;
             outline: none;
-            width: 260px;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .search-input:focus {
+        .search-input:focus, .form-input:focus, .form-dropdown:focus, .form-textarea:focus {
             border-color: #CC0000;
             box-shadow: 0 0 0 3px rgba(204,0,0,0.10);
         }
-        .btn-search {
+        .search-input { width: 260px; }
+        .form-textarea { width: 100%; min-height: 90px; resize: vertical; }
+
+        .btn-search, .btn-action {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
             border: none;
             font-weight: 700;
             letter-spacing: 0.02em;
             border-radius: 10px;
-            background: #0D1B3E;
             color: #fff;
             font-size: 0.92rem;
             padding: 11px 24px;
-            transition: background 0.2s;
             white-space: nowrap;
         }
+        .btn-search { background: #0D1B3E; }
         .btn-search:hover { background: #162348; }
 
-        /* SECTION LABEL */
+        .btn-save { background: #CC0000; }
+        .btn-save:hover { background: #A80000; }
+
+        .btn-cancel { background: #777; }
+        .btn-cancel:hover { background: #666; }
+
+        .btn-grid {
+            background: #0D1B3E;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-family: 'Sora', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        .btn-grid:hover { background: #162348; }
+
+        .btn-delete {
+            background: #CC0000;
+        }
+        .btn-delete:hover {
+            background: #A80000;
+        }
+
         .section-label {
             font-family: 'Sora', sans-serif;
             font-size: 0.72rem;
@@ -148,14 +169,35 @@
             display: block;
         }
 
-        /* GRID TABLE */
-        .grid-wrap {
+        .form-card, .grid-wrap {
             background: #fff;
             border-radius: 14px;
             border: 1px solid #E0DED8;
             overflow: hidden;
             margin-bottom: 36px;
         }
+
+        .form-card {
+            padding: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
         .grid-wrap table {
             width: 100%;
             border-collapse: collapse;
@@ -179,56 +221,48 @@
             border-bottom: 1px solid #F0EDE8;
             vertical-align: middle;
         }
-        .grid-wrap table tr:last-child td { border-bottom: none; }
-        .grid-wrap table tr:hover td { background: #FAF9F7; }
 
-        /* NAV BUTTONS */
         .nav-buttons {
             display: flex;
             gap: 12px;
         }
-        .btn-primary {
+        .btn-primary, .btn-secondary {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
             border: none;
             font-weight: 700;
             letter-spacing: 0.02em;
             border-radius: 10px;
-            background: #CC0000;
             color: #fff;
             font-size: 0.95rem;
             padding: 13px 28px;
-            box-shadow: 0 4px 18px rgba(204,0,0,0.22);
-            transition: background 0.2s;
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            transition: background 0.2s;
+        }
+        .btn-primary {
+            background: #CC0000;
+            box-shadow: 0 4px 18px rgba(204,0,0,0.22);
         }
         .btn-primary:hover { background: #A80000; }
 
         .btn-secondary {
-            font-family: 'Sora', sans-serif;
-            cursor: pointer;
-            border: none;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            border-radius: 10px;
             background: #0D1B3E;
-            color: #fff;
-            font-size: 0.95rem;
-            padding: 13px 28px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.2s;
         }
         .btn-secondary:hover { background: #162348; }
+
+        .status-message {
+            display: block;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 <form id="form1" runat="server">
 
-    <!-- NAV -->
     <div class="nav">
         <div class="nav-brand">
             <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
@@ -239,45 +273,86 @@
 
     <div class="page-body">
 
-        <!-- PAGE HEADER -->
         <div class="page-header">
             <div class="page-header-accent"></div>
             <h2>Manage Skills</h2>
-            <p>Browse the available skills catalog below.</p>
+            <p>Browse and manage the available skills catalog below.</p>
         </div>
 
         <div class="divider"></div>
 
-        <!-- SEARCH -->
+        <asp:Label ID="lblMessage" runat="server" CssClass="status-message" />
+
+        <asp:Panel ID="pnlAdminForm" runat="server" Visible="false">
+            <span class="section-label">Skill Form</span>
+            <div class="form-card">
+                <asp:HiddenField ID="hfSkillID" runat="server" />
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Skill Name</label>
+                        <asp:TextBox ID="txtSkillName" runat="server" CssClass="form-input" />
+                    </div>
+
+                    <div class="form-field">
+                        <label>Category</label>
+                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-dropdown" />
+                    </div>
+
+                    <div class="form-field full-width">
+                        <label>Description</label>
+                        <asp:TextBox ID="txtDescription" runat="server" TextMode="MultiLine" CssClass="form-textarea" />
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <asp:Button ID="btnSaveSkill" runat="server" Text="Save Skill" CssClass="btn-action btn-save" OnClick="btnSaveSkill_Click" />
+                    <asp:Button ID="btnCancelEdit" runat="server" Text="Cancel" CssClass="btn-action btn-cancel" OnClick="btnCancelEdit_Click" CausesValidation="false" />
+                </div>
+            </div>
+        </asp:Panel>
+
         <div class="search-bar">
             <asp:Label ID="lblSearch" runat="server" Text="Search Skills:" CssClass="search-label" />
             <asp:TextBox ID="txtSearch" runat="server" CssClass="search-input" placeholder="e.g. Mathematics, Guitar..." />
             <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="SearchSkills" CssClass="btn-search" />
+            <asp:Button ID="btnShowAddNew" runat="server" Text="Add New Skill" CssClass="btn-action btn-save" OnClick="btnShowAddNew_Click" Visible="false" />
         </div>
 
-        <!-- SKILLS GRID -->
         <span class="section-label">Available Skills Catalog</span>
         <div class="grid-wrap">
+            <asp:GridView ID="gvSkills" runat="server"
+                AutoGenerateColumns="False"
+                DataKeyNames="SkillID"
+                OnRowCommand="gvSkills_RowCommand"
+                GridLines="None">
+                <Columns>
+                    <asp:BoundField DataField="SkillName" HeaderText="Skill" />
+                    <asp:BoundField DataField="CategoryName" HeaderText="Category" />
+                    <asp:BoundField DataField="Description" HeaderText="Description" />
 
-<asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="False"
-    OnRowCommand="gvSkills_RowCommand"
-    GridLines="None">
+                    <asp:TemplateField HeaderText="Actions">
+                        <ItemTemplate>
+                            <asp:Button ID="btnEdit" runat="server"
+                                Text="Edit"
+                                CommandName="EditSkill"
+                                CommandArgument='<%# Eval("SkillID") %>'
+                                CssClass="btn-grid"
+                                Visible='<%# Session["Role"] != null && Session["Role"].ToString() == "Admin" %>' />
 
-    <Columns>
-        <asp:BoundField DataField="SkillName" HeaderText="Skill" />
-        <asp:BoundField DataField="CategoryName" HeaderText="Category" />
-        <asp:BoundField DataField="Description" HeaderText="Description" />
-    </Columns>
-
-</asp:GridView>
+                            <asp:Button ID="btnDelete" runat="server"
+                                Text="Delete"
+                                CommandName="DeleteSkill"
+                                CommandArgument='<%# Eval("SkillID") %>'
+                                CssClass="btn-grid btn-delete"
+                                OnClientClick="return confirm('Are you sure you want to delete this skill?');"
+                                Visible='<%# Session["Role"] != null && Session["Role"].ToString() == "Admin" %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
         </div>
 
-        <asp:SqlDataSource ID="SqlDataSource" runat="server"
-            ConnectionString="<%$ ConnectionStrings:PairEdDBConnection %>"
-            SelectCommand="SELECT s.SkillName AS Skill, sc.CategoryName AS Category, s.Description FROM Skills AS s INNER JOIN SkillCategories AS sc ON s.CategoryID = sc.CategoryID">
-        </asp:SqlDataSource>
-
-        <!-- NAVIGATION -->
         <div class="nav-buttons">
             <asp:HyperLink ID="lnkBackProfile" runat="server"
                 NavigateUrl="~/Pages/Profile.aspx"
