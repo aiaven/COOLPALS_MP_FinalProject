@@ -18,7 +18,6 @@
             flex-direction: column;
         }
 
-        /* NAV */
         .nav {
             display: flex;
             align-items: center;
@@ -29,11 +28,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.07);
             flex-shrink: 0;
         }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .nav-brand { display: flex; align-items: center; gap: 16px; }
         .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
@@ -52,25 +47,23 @@
             font-weight: 500;
         }
 
-        /* SPLIT LAYOUT */
         .page {
             flex: 1;
             display: grid;
             grid-template-columns: 70% 30%;
-            overflow: hidden;
+            min-height: 0;
         }
 
-        /* LEFT PANEL */
+        /* LEFT */
         .left {
             position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 72px 110px 48px 110px;
-            overflow: hidden;
+            padding: 72px 110px 0 110px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            align-self: stretch;
         }
         .left-overlay {
             position: absolute;
@@ -82,6 +75,7 @@
             position: relative;
             z-index: 2;
             max-width: 780px;
+            flex: 1;
         }
         .badge {
             display: inline-flex;
@@ -99,11 +93,7 @@
             border-radius: 99px;
             margin-bottom: 28px;
         }
-        .badge-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #CC0000;
-        }
+        .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #CC0000; }
         .left h1 {
             font-family: 'Sora', sans-serif;
             font-weight: 800;
@@ -121,12 +111,7 @@
             max-width: 580px;
             margin-bottom: 40px;
         }
-        .skills-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 11px;
-            margin-bottom: 40px;
-        }
+        .skills-row { display: flex; flex-wrap: wrap; gap: 11px; margin-bottom: 40px; }
         .skill-pill {
             background: rgba(255,255,255,0.10);
             border: 1px solid rgba(255,255,255,0.22);
@@ -143,18 +128,12 @@
             align-items: center;
             background: rgba(255,255,255,0.06);
             border-top: 1px solid rgba(255,255,255,0.10);
-            margin: 0 -110px -48px -110px;
+            margin: 0 -110px;
             padding: 28px 110px;
+            flex-shrink: 0;
         }
-        .about-item {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        .about-item + .about-item {
-            padding-left: 48px;
-            border-left: 1px solid rgba(255,255,255,0.12);
-        }
+        .about-item { display: flex; flex-direction: column; flex: 1; }
+        .about-item + .about-item { padding-left: 48px; border-left: 1px solid rgba(255,255,255,0.12); }
         .about-label {
             font-family: 'Sora', sans-serif;
             font-size: 0.72rem;
@@ -171,7 +150,7 @@
             color: rgba(255,255,255,0.88);
         }
 
-        /* RIGHT PANEL */
+        /* RIGHT */
         .right {
             background: #F5F4F0;
             display: flex;
@@ -182,18 +161,13 @@
             border-left: 1px solid #E0DED8;
             overflow-y: auto;
         }
-        .right-inner {
-            width: 100%;
-            max-width: 340px;
-        }
+        .right-inner { width: 100%; max-width: 340px; }
         .right-accent {
-            width: 44px;
-            height: 4px;
+            width: 44px; height: 4px;
             background: #CC0000;
             border-radius: 2px;
             margin-bottom: 20px;
         }
-
         .panel-heading {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -208,8 +182,6 @@
             margin-bottom: 20px;
             line-height: 1.65;
         }
-
-        /* MESSAGE */
         .msg-text {
             font-family: 'Sora', sans-serif;
             font-size: 0.88rem;
@@ -220,8 +192,6 @@
             line-height: 1.55;
             min-height: 1.2em;
         }
-
-        /* FORM — two-column name row */
         .field-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -229,7 +199,6 @@
             margin-bottom: 14px;
         }
         .field-group { margin-bottom: 14px; }
-
         .field-label {
             display: block;
             font-family: 'Sora', sans-serif;
@@ -240,7 +209,6 @@
             color: #0D1B3E;
             margin-bottom: 6px;
         }
-
         .field-input {
             width: 100%;
             padding: 11px 14px;
@@ -257,8 +225,6 @@
             border-color: #CC0000;
             box-shadow: 0 0 0 3px rgba(204,0,0,0.10);
         }
-
-        /* BUTTONS */
         .btn-primary {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
@@ -279,7 +245,6 @@
             text-decoration: none;
         }
         .btn-primary:hover { background: #A80000; }
-
         .divider-line {
             display: flex;
             align-items: center;
@@ -289,12 +254,9 @@
             font-size: 0.80rem;
         }
         .divider-line::before, .divider-line::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #E0DED8;
+            content: ''; flex: 1;
+            height: 1px; background: #E0DED8;
         }
-
         .btn-secondary {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
@@ -314,8 +276,6 @@
             margin-bottom: 12px;
         }
         .btn-secondary:hover { background: #162348; }
-
-        /* BRANDING FOOTER */
         .right-bottom-brand {
             margin-top: 24px;
             padding-top: 20px;
@@ -325,11 +285,7 @@
             align-items: center;
             gap: 8px;
         }
-        .right-bottom-brand img {
-            height: 28px;
-            width: auto;
-            opacity: 0.28;
-        }
+        .right-bottom-brand img { height: 28px; width: auto; opacity: 0.28; }
         .right-bottom-brand span {
             font-family: 'Sora', sans-serif;
             font-size: 0.68rem;
@@ -352,7 +308,6 @@
 <body>
 <form id="form1" runat="server">
 
-    <!-- NAV -->
     <div class="nav">
         <div class="nav-brand">
             <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
@@ -363,7 +318,6 @@
 
     <div class="page">
 
-        <!-- LEFT 70% -->
         <div class="left" style='background-image: url("<%= ResolveUrl("~/Images/backphoto.jpg") %>"); background-size: cover; background-position: center;'>
             <div class="left-overlay"></div>
             <div class="left-content">
@@ -395,7 +349,6 @@
             </div>
         </div>
 
-        <!-- RIGHT 30% -->
         <div class="right">
             <div class="right-inner">
                 <div class="right-accent"></div>
@@ -404,7 +357,6 @@
 
                 <asp:Label ID="lblMessage" runat="server" CssClass="msg-text" Text=""></asp:Label>
 
-                <!-- First Name + Last Name side by side -->
                 <div class="field-row">
                     <div>
                         <label class="field-label" for="<%= txtFirstName.ClientID %>">First Name</label>

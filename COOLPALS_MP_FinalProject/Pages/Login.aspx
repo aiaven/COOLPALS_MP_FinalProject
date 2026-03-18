@@ -14,6 +14,8 @@
             overflow: hidden;
             font-family: 'DM Sans', sans-serif;
             background: #0D1B3E;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav {
@@ -26,15 +28,8 @@
             border-bottom: 1px solid rgba(255,255,255,0.07);
             flex-shrink: 0;
         }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .nav-logo {
-            height: 52px;
-            width: auto;
-        }
+        .nav-brand { display: flex; align-items: center; gap: 16px; }
+        .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -52,27 +47,26 @@
             font-weight: 500;
         }
 
-        body {
-            display: flex;
-            flex-direction: column;
-        }
         .page {
             flex: 1;
             display: grid;
             grid-template-columns: 70% 30%;
-            overflow: hidden;
+            /* key: no overflow hidden, grid row fills remaining height */
+            min-height: 0;
         }
 
+        /* LEFT — fully fills its grid cell, strip pinned to bottom */
         .left {
             position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 72px 110px 48px 110px;
-            overflow: hidden;
+            /* no padding-bottom — strip sits flush at the very bottom */
+            padding: 72px 110px 0 110px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            /* fill the full grid cell height */
+            align-self: stretch;
         }
         .left-overlay {
             position: absolute;
@@ -84,6 +78,8 @@
             position: relative;
             z-index: 2;
             max-width: 780px;
+            /* pushes strip to bottom */
+            flex: 1;
         }
         .badge {
             display: inline-flex;
@@ -101,11 +97,7 @@
             border-radius: 99px;
             margin-bottom: 28px;
         }
-        .badge-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #CC0000;
-        }
+        .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #CC0000; }
         .left h1 {
             font-family: 'Sora', sans-serif;
             font-weight: 800;
@@ -123,12 +115,7 @@
             max-width: 580px;
             margin-bottom: 40px;
         }
-        .skills-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 11px;
-            margin-bottom: 40px;
-        }
+        .skills-row { display: flex; flex-wrap: wrap; gap: 11px; margin-bottom: 40px; }
         .skill-pill {
             background: rgba(255,255,255,0.10);
             border: 1px solid rgba(255,255,255,0.22);
@@ -138,6 +125,8 @@
             padding: 9px 20px;
             border-radius: 99px;
         }
+
+        /* Strip pinned flush to the bottom — negative margins pull it out of padding */
         .about-strip {
             position: relative;
             z-index: 2;
@@ -145,18 +134,13 @@
             align-items: center;
             background: rgba(255,255,255,0.06);
             border-top: 1px solid rgba(255,255,255,0.10);
-            margin: 0 -110px -48px -110px;
+            /* pull left/right flush, no bottom gap */
+            margin: 0 -110px;
             padding: 28px 110px;
+            flex-shrink: 0;
         }
-        .about-item {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        .about-item + .about-item {
-            padding-left: 48px;
-            border-left: 1px solid rgba(255,255,255,0.12);
-        }
+        .about-item { display: flex; flex-direction: column; flex: 1; }
+        .about-item + .about-item { padding-left: 48px; border-left: 1px solid rgba(255,255,255,0.12); }
         .about-label {
             font-family: 'Sora', sans-serif;
             font-size: 0.72rem;
@@ -173,6 +157,7 @@
             color: rgba(255,255,255,0.88);
         }
 
+        /* RIGHT */
         .right {
             background: #F5F4F0;
             display: flex;
@@ -181,19 +166,15 @@
             align-items: center;
             padding: 52px 48px;
             border-left: 1px solid #E0DED8;
+            overflow-y: auto;
         }
-        .right-inner {
-            width: 100%;
-            max-width: 340px;
-        }
+        .right-inner { width: 100%; max-width: 340px; }
         .right-accent {
-            width: 44px;
-            height: 4px;
+            width: 44px; height: 4px;
             background: #CC0000;
             border-radius: 2px;
             margin-bottom: 20px;
         }
-
         .panel-heading {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -208,7 +189,6 @@
             margin-bottom: 24px;
             line-height: 1.65;
         }
-
         .msg-text {
             font-family: 'Sora', sans-serif;
             font-size: 0.88rem;
@@ -219,9 +199,7 @@
             line-height: 1.55;
             min-height: 1.2em;
         }
-
         .field-group { margin-bottom: 16px; }
-
         .field-label {
             display: block;
             font-family: 'Sora', sans-serif;
@@ -232,7 +210,6 @@
             color: #0D1B3E;
             margin-bottom: 7px;
         }
-
         .field-input {
             width: 100%;
             padding: 12px 16px;
@@ -249,7 +226,6 @@
             border-color: #CC0000;
             box-shadow: 0 0 0 3px rgba(204,0,0,0.10);
         }
-
         .btn-primary {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
@@ -268,7 +244,6 @@
             transition: background 0.2s;
         }
         .btn-primary:hover { background: #A80000; }
-
         .divider-line {
             display: flex;
             align-items: center;
@@ -278,12 +253,9 @@
             font-size: 0.80rem;
         }
         .divider-line::before, .divider-line::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #E0DED8;
+            content: ''; flex: 1;
+            height: 1px; background: #E0DED8;
         }
-
         .btn-secondary {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
@@ -302,7 +274,6 @@
             transition: background 0.2s;
         }
         .btn-secondary:hover { background: #162348; }
-
         .right-bottom-brand {
             margin-top: 32px;
             padding-top: 22px;
@@ -312,11 +283,7 @@
             align-items: center;
             gap: 8px;
         }
-        .right-bottom-brand img {
-            height: 28px;
-            width: auto;
-            opacity: 0.28;
-        }
+        .right-bottom-brand img { height: 28px; width: auto; opacity: 0.28; }
         .right-bottom-brand span {
             font-family: 'Sora', sans-serif;
             font-size: 0.68rem;
@@ -339,7 +306,6 @@
 <body>
 <form id="form1" runat="server">
 
-    <!-- NAV -->
     <div class="nav">
         <div class="nav-brand">
             <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
@@ -350,7 +316,6 @@
 
     <div class="page">
 
-        <!-- LEFT 70% -->
         <div class="left" style='background-image: url("<%= ResolveUrl("~/Images/backphoto.jpg") %>"); background-size: cover; background-position: center;'>
             <div class="left-overlay"></div>
             <div class="left-content">
@@ -382,7 +347,6 @@
             </div>
         </div>
 
-        <!-- RIGHT 30% -->
         <div class="right">
             <div class="right-inner">
                 <div class="right-accent"></div>
