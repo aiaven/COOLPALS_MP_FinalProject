@@ -28,7 +28,7 @@ Installation Steps
     - Click OK, then click OK again to begin the restoration process.
     - Once completed, the PairEdDB database will appear under the Databases list.
     - Open your project in Visual Studio and locate the Web.config file.
-    - Update the connection string to match your local database instance. Example: Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PairEdDB;Integrated Security=True;
+    - Update the connection string to match your local database instance. Example: Data Source=(SampleName)\MSSQLLocalDB;Initial Catalog=PairEdDB;Integrated Security=True;
   
   4. Run the application
     - Build the solution to ensure there are no errors.
