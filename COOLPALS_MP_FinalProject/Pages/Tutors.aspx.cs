@@ -20,39 +20,52 @@ namespace COOLPALS_MP_FinalProject
                     Response.Redirect("~/Pages/Login.aspx");
                     return;
                 }
-                
+
+                LoadCategories();
                 LoadTutors();
             }
         }
 
-        private void LoadTutors(string skillFilter = "")
+        private void LoadTutors(string skillFilter = "", string categoryFilter = "")
         {
             int currentUserId = Convert.ToInt32(Session["UserID"]);
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string query = @"SELECT u.UserID, u.FirstName, u.LastName, u.Program, u.YearLevel,
-                                        s.SkillID, s.SkillName, sc.CategoryName, 
-                                        us.ProficiencyLevel, us.YearsExperience
-                                 FROM UserSkills us
-                                 INNER JOIN Users u ON us.UserID = u.UserID
-                                 INNER JOIN Skills s ON us.SkillID = s.SkillID
-                                 INNER JOIN SkillCategories sc ON s.CategoryID = sc.CategoryID
-                                 WHERE us.CanTutor = 1 
-                                    AND u.IsActive = 1
-                                    AND u.UserID <> @CurrentUserID";
+                                s.SkillID, s.SkillName, sc.CategoryName, 
+                                us.ProficiencyLevel, us.YearsExperience
+                         FROM UserSkills us
+                         INNER JOIN Users u ON us.UserID = u.UserID
+                         INNER JOIN Skills s ON us.SkillID = s.SkillID
+                         INNER JOIN SkillCategories sc ON s.CategoryID = sc.CategoryID
+                         WHERE us.CanTutor = 1
+                           AND u.IsActive = 1
+                           AND u.UserID <> @CurrentUserID";
 
                 if (!string.IsNullOrWhiteSpace(skillFilter))
                 {
                     query += " AND s.SkillName LIKE @skill";
                 }
 
+                if (!string.IsNullOrWhiteSpace(categoryFilter))
+                {
+                    query += " AND s.CategoryID = @categoryId";
+                }
+
+                query += " ORDER BY s.SkillName, u.LastName, u.FirstName";
+
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 da.SelectCommand.Parameters.AddWithValue("@CurrentUserID", currentUserId);
 
                 if (!string.IsNullOrWhiteSpace(skillFilter))
                 {
-                    da.SelectCommand.Parameters.AddWithValue("@skill", "%" + skillFilter + "%");
+                    da.SelectCommand.Parameters.AddWithValue("@skill", skillFilter + "%");
+                }
+
+                if (!string.IsNullOrWhiteSpace(categoryFilter))
+                {
+                    da.SelectCommand.Parameters.AddWithValue("@categoryId", categoryFilter);
                 }
 
                 DataTable dt = new DataTable();
@@ -63,9 +76,41 @@ namespace COOLPALS_MP_FinalProject
             }
         }
 
+        private void LoadCategories()
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string query = "SELECT CategoryID, CategoryName FROM SkillCategories ORDER BY CategoryName";
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlCategory.DataSource = reader;
+                ddlCategory.DataTextField = "CategoryName";
+                ddlCategory.DataValueField = "CategoryID";
+                ddlCategory.DataBind();
+
+                reader.Close();
+            }
+
+            ddlCategory.Items.Insert(0, new ListItem("All Categories", ""));
+        }
+
         protected void SearchTutors(object sender, EventArgs e)
         {
-            LoadTutors(txtSearch.Text.Trim());
+            string skillFilter = txtSearch.Text.Trim();
+            string categoryFilter = ddlCategory.SelectedValue;
+
+            // Ignore very short searches like just 1 letter
+            if (!string.IsNullOrWhiteSpace(skillFilter) && skillFilter.Length < 2)
+            {
+                gvTutors.DataSource = null;
+                gvTutors.DataBind();
+                return;
+            }
+
+            LoadTutors(skillFilter, categoryFilter);
         }
 
         protected void gvTutors_RowCommand(object sender, GridViewCommandEventArgs e)

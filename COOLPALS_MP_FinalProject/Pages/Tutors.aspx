@@ -255,6 +255,11 @@
                             <asp:Label ID="lblSearch" runat="server" Text="Search by Skill:" />
                         </span>
                         <asp:TextBox ID="txtSearch" runat="server" placeholder="e.g. Mathematics, Python…" />
+
+                        <asp:DropDownList ID="ddlCategory" runat="server"
+                            style="font-family:'DM Sans', sans-serif; font-size:0.95rem; color:#0D1B3E; background:#fff; border:1px solid #D8D6D0; border-radius:10px; padding:10px 14px; min-width:180px; outline:none;">
+                        </asp:DropDownList>
+
                         <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="SearchTutors" CssClass="btn-search" />
                     </div>
                 </div>
