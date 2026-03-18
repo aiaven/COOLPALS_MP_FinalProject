@@ -458,16 +458,7 @@
 
             <div class="content">
 
-                <div id="divNewUserCard" runat="server" visible="false">
-                    <a href='<%= ResolveUrl("~/Pages/ManageSkills.aspx") %>'
-                       style="display:inline-flex;align-items:center;gap:8px;
-                              background:#C0392B;color:#fff;
-                              font-family:'Sora',sans-serif;font-weight:700;font-size:0.93rem;
-                              padding:14px 30px;border-radius:12px;text-decoration:none;
-                              box-shadow:0 4px 14px rgba(192,57,43,0.22);">
-                        🎯 &nbsp;Add My First Skill
-                    </a>
-                </div>
+             
 
                 <div id="divReturningCard" runat="server" class="returning-wrap" visible="false">
                     <span class="section-label">Quick Access</span>
@@ -491,7 +482,7 @@
                             </div>
                         </a>
 
-                        <a href='<%= ResolveUrl("~/Pages/Requests.aspx") %>' class="big-nav-card">
+                        <a href='<%= ResolveUrl("~/Pages/IncomingRequests.aspx") %>' class="big-nav-card">
                             <div class="bnc-icon">📋</div>
                             <div class="bnc-body">
                                 <div class="bnc-title">Requests</div>

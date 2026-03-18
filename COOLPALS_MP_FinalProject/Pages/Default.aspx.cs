@@ -46,7 +46,7 @@ namespace COOLPALS_MP_FinalProject
             btnRequests.Visible = false;
 
             divBtnRow.Visible = true;
-            divNewUserCard.Visible = false;
+          
             divReturningCard.Visible = false;
         }
 
@@ -61,7 +61,7 @@ namespace COOLPALS_MP_FinalProject
             btnRequests.Visible = false;
 
             divBtnRow.Visible = false;
-            divNewUserCard.Visible = true;
+           
             divReturningCard.Visible = false;
         }
 
@@ -88,7 +88,7 @@ namespace COOLPALS_MP_FinalProject
             }
 
             divBtnRow.Visible = false;
-            divNewUserCard.Visible = false;
+         
             divReturningCard.Visible = true;
         }
 

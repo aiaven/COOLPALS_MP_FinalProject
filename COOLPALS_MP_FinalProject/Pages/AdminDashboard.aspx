@@ -57,8 +57,7 @@
         /* PAGE HEADER */
         .page-header { margin-bottom: 32px; }
         .page-header-accent {
-            width: 44px;
-            height: 4px;
+            width: 44px; height: 4px;
             background: #CC0000;
             border-radius: 2px;
             margin-bottom: 16px;
@@ -71,13 +70,9 @@
             letter-spacing: -0.5px;
         }
 
-        .divider {
-            height: 1px;
-            background: #E0DED8;
-            margin-bottom: 32px;
-        }
+        .divider { height: 1px; background: #E0DED8; margin-bottom: 32px; }
 
-        /* MESSAGE */
+        /* MESSAGES */
         .msg-success {
             font-family: 'Sora', sans-serif;
             font-size: 0.88rem;
@@ -105,45 +100,34 @@
             line-height: 1.55;
         }
 
-        /* TAB BUTTONS */
+        /* TABS */
         .tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
             margin-bottom: 32px;
         }
-        .tab-btn {
+        .tab-btn, .tab-btn-link {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
-            font-size: 0.88rem;
-            padding: 11px 24px;
+            font-size: 1rem;
+            padding: 18px 24px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #0D1B3E;
             color: #fff;
             cursor: pointer;
             letter-spacing: 0.02em;
             transition: background 0.2s;
             text-decoration: none;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-align: center;
         }
-        .tab-btn:hover { background: #162348; }
-        .tab-btn-link {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 0.88rem;
-            padding: 11px 24px;
-            border: none;
-            border-radius: 10px;
-            background: #0D1B3E;
-            color: #fff;
-            cursor: pointer;
-            letter-spacing: 0.02em;
-            transition: background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .tab-btn-link:hover { background: #162348; }
+        .tab-btn:hover, .tab-btn-link:hover { background: #162348; }
 
         /* SECTION CARD */
         .section-card {
@@ -225,11 +209,7 @@
             overflow: hidden;
             margin-top: 24px;
         }
-        .grid-wrap table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.93rem;
-        }
+        .grid-wrap table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
         .grid-wrap table th {
             font-family: 'Sora', sans-serif;
             font-size: 0.68rem;
@@ -251,7 +231,67 @@
         .grid-wrap table tr:last-child td { border-bottom: none; }
         .grid-wrap table tr:hover td { background: #FAF9F7; }
 
-        /* LOGOUT BUTTON */
+        /* ACTION BUTTONS inside grid */
+        .grid-wrap a,
+        .grid-wrap input[type="submit"] {
+            font-family: 'Sora', sans-serif !important;
+            font-size: 0.80rem !important;
+            font-weight: 700 !important;
+            padding: 8px 18px !important;
+            border-radius: 8px !important;
+            border: none !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+            transition: background 0.2s !important;
+            margin-right: 6px !important;
+            line-height: 1 !important;
+        }
+        .grid-wrap a[href*="Edit"],
+        .grid-wrap input[value="Edit"] {
+            background: #0D1B3E !important;
+            color: #fff !important;
+            box-shadow: 0 2px 8px rgba(13,27,62,0.18) !important;
+        }
+        .grid-wrap a[href*="Edit"]:hover,
+        .grid-wrap input[value="Edit"]:hover { background: #162348 !important; }
+
+        .grid-wrap a[href*="Delete"],
+        .grid-wrap input[value="Delete"] {
+            background: #CC0000 !important;
+            color: #fff !important;
+            box-shadow: 0 2px 8px rgba(204,0,0,0.22) !important;
+        }
+        .grid-wrap a[href*="Delete"]:hover,
+        .grid-wrap input[value="Delete"]:hover { background: #A80000 !important; }
+
+        .grid-wrap a[href*="Update"],
+        .grid-wrap input[value="Update"] {
+            background: #CC0000 !important;
+            color: #fff !important;
+            box-shadow: 0 2px 8px rgba(204,0,0,0.22) !important;
+        }
+        .grid-wrap a[href*="Update"]:hover,
+        .grid-wrap input[value="Update"]:hover { background: #A80000 !important; }
+
+        .grid-wrap a[href*="Cancel"],
+        .grid-wrap input[value="Cancel"] {
+            background: #E0DED8 !important;
+            color: #0D1B3E !important;
+            box-shadow: none !important;
+        }
+        .grid-wrap a[href*="Cancel"]:hover,
+        .grid-wrap input[value="Cancel"]:hover { background: #CCC9C2 !important; }
+
+        /* locked row indicator */
+        .row-locked {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.78rem;
+            color: #C0BEB9;
+            font-style: italic;
+        }
+
+        /* LOGOUT */
         .btn-logout {
             font-family: 'Sora', sans-serif;
             cursor: pointer;
@@ -285,7 +325,6 @@
 
     <div class="page-body">
 
-        <!-- PAGE HEADER -->
         <div class="page-header">
             <div class="page-header-accent"></div>
             <h1>Admin Dashboard</h1>
@@ -293,24 +332,26 @@
 
         <div class="divider"></div>
 
-        <!-- MESSAGE -->
         <asp:Label ID="lblMessage" runat="server" CssClass="msg-success" Visible="false" />
 
         <!-- TABS -->
         <div class="tabs">
-            <asp:Button ID="btnUsersTab"      runat="server" Text="👤 Users"      CssClass="tab-btn" OnClick="ShowUsersTab" />
-            <asp:Button ID="btnCategoriesTab" runat="server" Text="🗂 Categories" CssClass="tab-btn" OnClick="ShowCategoriesTab" />
+            <asp:Button ID="btnUsersTab"      runat="server" Text="👤  Users"      CssClass="tab-btn" OnClick="ShowUsersTab" />
+            <asp:Button ID="btnCategoriesTab" runat="server" Text="🗂  Categories" CssClass="tab-btn" OnClick="ShowCategoriesTab" />
             <asp:HyperLink ID="lnkSkillsPage" runat="server"
                 NavigateUrl="~/Pages/ManageSkills.aspx"
                 CssClass="tab-btn-link"
-                Text="🎯 Skills" />
-            <asp:Button ID="btnRequestsTab"   runat="server" Text="📋 Requests"   CssClass="tab-btn" OnClick="ShowRequestsTab" />
+                Text="🎯  Skills" />
+            <asp:Button ID="btnRequestsTab" runat="server" Text="📋  Requests" CssClass="tab-btn" OnClick="ShowRequestsTab" />
         </div>
 
         <!-- USERS PANEL -->
         <asp:Panel ID="pnlUsers" runat="server" CssClass="section-card" Visible="false">
             <span class="section-label">User Management</span>
             <h2>Manage Users</h2>
+            <p style="font-size:0.84rem;color:#8A8A8A;margin-bottom:16px;">
+                ⚠ Your own account row is locked and cannot be edited or deleted. You may only deactivate student accounts.
+            </p>
             <div class="grid-wrap">
                 <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False"
                     DataKeyNames="UserID"
@@ -318,15 +359,16 @@
                     OnRowUpdating="gvUsers_RowUpdating"
                     OnRowDeleting="gvUsers_RowDeleting"
                     OnRowCancelingEdit="gvUsers_RowCancelingEdit"
+                    OnRowDataBound="gvUsers_RowDataBound"
                     GridLines="None">
                     <Columns>
                         <asp:BoundField DataField="UserID"    HeaderText="ID"         ReadOnly="True" />
-                        <asp:BoundField DataField="FirstName" HeaderText="First Name" />
-                        <asp:BoundField DataField="LastName"  HeaderText="Last Name" />
-                        <asp:BoundField DataField="Email"     HeaderText="Email" />
-                        <asp:BoundField DataField="Role"      HeaderText="Role" />
-                        <asp:CheckBoxField DataField="IsActive" HeaderText="Active" />
-                        <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+                        <asp:BoundField DataField="FirstName" HeaderText="First Name" ReadOnly="True" />
+                        <asp:BoundField DataField="LastName"  HeaderText="Last Name"  ReadOnly="True" />
+                        <asp:BoundField DataField="Email"     HeaderText="Email"      ReadOnly="True" />
+                        <asp:BoundField DataField="Role"      HeaderText="Role"       ReadOnly="True" />
+                        <asp:CheckBoxField DataField="IsActive" HeaderText="Active"   ReadOnly="True" />
+                        <asp:CommandField ShowEditButton="False" ShowDeleteButton="True" DeleteText="Deactivate" />
                     </Columns>
                 </asp:GridView>
             </div>
@@ -336,7 +378,6 @@
         <asp:Panel ID="pnlCategories" runat="server" CssClass="section-card" Visible="false">
             <span class="section-label">Category Management</span>
             <h2>Manage Categories</h2>
-
             <div class="form-row">
                 <label class="field-label">Category Name</label>
                 <asp:TextBox ID="txtCategoryName" runat="server" CssClass="field-input" />
@@ -349,7 +390,6 @@
                 <asp:Button ID="btnAddCategory" runat="server" Text="+ Add Category"
                     OnClick="btnAddCategory_Click" CssClass="btn-add" />
             </div>
-
             <div class="grid-wrap">
                 <asp:GridView ID="gvCategories" runat="server" AutoGenerateColumns="False"
                     DataKeyNames="CategoryID"
@@ -381,19 +421,18 @@
                     OnRowCancelingEdit="gvRequests_RowCancelingEdit"
                     GridLines="None">
                     <Columns>
-                        <asp:BoundField DataField="RequestID"   HeaderText="ID"           ReadOnly="True" />
-                        <asp:BoundField DataField="Learner"     HeaderText="Learner"       ReadOnly="True" />
-                        <asp:BoundField DataField="Tutor"       HeaderText="Tutor"         ReadOnly="True" />
-                        <asp:BoundField DataField="Skill"       HeaderText="Skill"         ReadOnly="True" />
+                        <asp:BoundField DataField="RequestID"   HeaderText="ID"          ReadOnly="True" />
+                        <asp:BoundField DataField="Learner"     HeaderText="Learner"      ReadOnly="True" />
+                        <asp:BoundField DataField="Tutor"       HeaderText="Tutor"        ReadOnly="True" />
+                        <asp:BoundField DataField="Skill"       HeaderText="Skill"        ReadOnly="True" />
                         <asp:BoundField DataField="Status"      HeaderText="Status" />
-                        <asp:BoundField DataField="RequestDate" HeaderText="Request Date"  ReadOnly="True" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
+                        <asp:BoundField DataField="RequestDate" HeaderText="Request Date" ReadOnly="True" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
                         <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
                     </Columns>
                 </asp:GridView>
             </div>
         </asp:Panel>
 
-        <!-- LOGOUT -->
         <asp:HyperLink ID="lnkLogout" runat="server"
             NavigateUrl="~/Pages/Logout.aspx"
             Text="Logout"
