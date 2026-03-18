@@ -1,16 +1,13 @@
-﻿```aspx
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Requests.aspx.cs" Inherits="COOLPALS_MP_FinalProject.Request" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Requests.aspx.cs" Inherits="COOLPALS_MP_FinalProject.Request" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>PairEd - Request Tutoring Session</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
-        /* ── RESET ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; }
 
-        /* ── BASE ── */
         body {
             font-family: 'DM Sans', sans-serif;
             background: #0D1B3E;
@@ -19,7 +16,7 @@
             min-height: 100vh;
         }
 
-        /* ── NAV ── */
+        /* NAV */
         .nav {
             display: flex;
             align-items: center;
@@ -31,6 +28,7 @@
             flex-shrink: 0;
         }
         .nav-brand { display: flex; align-items: center; gap: 16px; }
+        .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -48,7 +46,7 @@
             font-weight: 500;
         }
 
-        /* ── PAGE LAYOUT ── */
+        /* PAGE LAYOUT */
         .page {
             flex: 1;
             display: grid;
@@ -56,7 +54,7 @@
             overflow: hidden;
         }
 
-        /* ── LEFT PANEL ── */
+        /* LEFT PANEL */
         .left {
             display: flex;
             flex-direction: column;
@@ -98,7 +96,7 @@
             max-width: 480px;
         }
 
-        /* ── RIGHT PANEL ── */
+        /* RIGHT PANEL */
         .right {
             background: #F5F4F0;
             display: flex;
@@ -132,7 +130,7 @@
             line-height: 1.65;
         }
 
-        /* ── MESSAGE LABEL ── */
+        /* MESSAGE LABEL */
         .msg-label {
             display: block;
             font-family: 'Sora', sans-serif;
@@ -146,7 +144,7 @@
             margin-bottom: 20px;
         }
 
-        /* ── FORM FIELDS ── */
+        /* FORM FIELDS */
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
         .field label {
             font-family: 'Sora', sans-serif;
@@ -177,9 +175,14 @@
         .field input:focus,
         .field select:focus,
         .field textarea:focus { border-color: #CC0000; }
-        .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+        .field select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
 
-        /* ── BUTTONS ── */
+        /* BUTTONS */
         .btn-block {
             display: block;
             width: 100%;
@@ -209,7 +212,7 @@
         }
         .btn-navy:hover { background: #162348; }
 
-        /* ── DIVIDER ── */
+        /* DIVIDER */
         .divider-line {
             display: flex;
             align-items: center;
@@ -223,7 +226,7 @@
             height: 1px; background: #E0DED8;
         }
 
-        /* ── BOTTOM BRAND ── */
+        /* BOTTOM BRAND */
         .right-bottom-brand {
             margin-top: 28px;
             padding-top: 20px;
@@ -232,6 +235,11 @@
             flex-direction: column;
             align-items: center;
             gap: 6px;
+        }
+        .right-bottom-brand img {
+            height: 28px;
+            width: auto;
+            opacity: 0.28;
         }
         .right-bottom-brand span {
             font-family: 'Sora', sans-serif;
@@ -245,18 +253,19 @@
 <body>
     <form id="form1" runat="server">
 
-        <%-- NAV --%>
+        <!-- NAV -->
         <nav class="nav">
             <div class="nav-brand">
+                <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
                 <span class="nav-site-name">Pair<span>Ed</span></span>
-                <span class="nav-tag">Peer Tutoring</span>
             </div>
+            <span class="nav-tag">Student Skill-Sharing Platform</span>
         </nav>
 
-        <%-- PAGE --%>
+        <!-- PAGE -->
         <div class="page">
 
-            <%-- LEFT: INFO --%>
+            <!-- LEFT: INFO -->
             <div class="left">
                 <div>
                     <div class="badge"><span class="badge-dot"></span> New Request</div>
@@ -268,7 +277,7 @@
                 </div>
             </div>
 
-            <%-- RIGHT: FORM --%>
+            <!-- RIGHT: FORM -->
             <div class="right">
                 <div class="right-inner">
 
@@ -276,58 +285,59 @@
                     <div class="right-heading">Session Details</div>
                     <div class="right-sub">All fields are required unless noted.</div>
 
-                    <%-- MESSAGE --%>
+                    <!-- MESSAGE -->
                     <asp:Label ID="lblMessage" runat="server" CssClass="msg-label" />
 
-                    <%-- TUTOR --%>
+                    <!-- TUTOR -->
                     <div class="field">
                         <asp:Label ID="lblTutor" runat="server" Text="Tutor" AssociatedControlID="txtTutor" />
                         <asp:TextBox ID="txtTutor" runat="server" ReadOnly="true" />
                     </div>
 
-                    <%-- SKILL --%>
+                    <!-- SKILL -->
                     <div class="field">
                         <asp:Label ID="lblSkill" runat="server" Text="Skill" AssociatedControlID="ddlSkill" />
                         <asp:DropDownList ID="ddlSkill" runat="server" />
                     </div>
 
-                    <%-- DATE --%>
+                    <!-- DATE -->
                     <div class="field">
                         <asp:Label ID="lblDate" runat="server" Text="Requested Date" AssociatedControlID="txtDate" />
                         <asp:TextBox ID="txtDate" runat="server" TextMode="Date" />
                     </div>
 
-                    <%-- TIME --%>
+                    <!-- TIME -->
                     <div class="field">
                         <asp:Label ID="lblTime" runat="server" Text="Requested Time" AssociatedControlID="txtTime" />
                         <asp:TextBox ID="txtTime" runat="server" TextMode="Time" />
                     </div>
 
-                    <%-- NOTES --%>
+                    <!-- NOTES -->
                     <div class="field">
                         <asp:Label ID="lblNotes" runat="server" Text="Notes (optional)" AssociatedControlID="txtNotes" />
                         <asp:TextBox ID="txtNotes" runat="server" TextMode="MultiLine" Rows="4" />
                     </div>
 
-                    <%-- SUBMIT --%>
+                    <!-- SUBMIT -->
                     <asp:Button ID="btnSubmit" runat="server" Text="Submit Request"
                         OnClick="SubmitRequest" CssClass="btn-block btn-red" />
 
                     <div class="divider-line">or</div>
 
-                    <%-- BACK TO TUTORS --%>
+                    <!-- BACK TO TUTORS -->
                     <asp:HyperLink ID="lnkBackTutor" runat="server"
                         NavigateUrl="~/Pages/Tutors.aspx"
-                        Text="← Back to Tutors"
+                        Text="View Tutors"
                         CssClass="btn-block btn-navy" />
 
-                    <%-- BACK TO HOME --%>
+                    <!-- BACK TO HOME -->
                     <asp:Button ID="btnBack" runat="server" Text="Go to Dashboard"
                         PostBackUrl="~/Pages/Default.aspx"
                         CssClass="btn-block btn-navy" />
 
                     <div class="right-bottom-brand">
-                        <span>PairEd &mdash; Peer Tutoring Platform<br />Powered by COOLPALS</span>
+                        <img src='<%= ResolveUrl("~/Images/PairEdLogo.png") %>' alt="PairEd" />
+                        <span>For enrolled students only<br />Safe &amp; school-monitored<br />© 2025 PairEd · COOLPALS Final Project</span>
                     </div>
 
                 </div>
@@ -337,4 +347,3 @@
     </form>
 </body>
 </html>
-```
