@@ -63,7 +63,7 @@
             flex-direction: column;
             height: 100%;
             overflow: hidden;
-            padding: 36px 0 28px;
+            padding: 36px 0 0;
             position: relative;
         }
         .sidebar::before {
@@ -110,6 +110,48 @@
             letter-spacing: 0.16em;
             padding: 0 28px;
             margin-bottom: 8px;
+        }
+
+        /* nav links flex grow to push logout to bottom */
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .sidebar-spacer { flex: 1; }
+
+        /* logout section pinned to bottom */
+        .sidebar-logout {
+            padding: 20px 28px 28px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            position: relative;
+            z-index: 1;
+        }
+        .sidebar-logout a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.40);
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.18s, color 0.18s, border-color 0.18s;
+            letter-spacing: 0.01em;
+        }
+        .sidebar-logout a:hover {
+            background: rgba(192,57,43,0.12);
+            color: #E87B70;
+            border-color: rgba(192,57,43,0.30);
+        }
+        .sidebar-logout-icon {
+            font-size: 1rem;
+            line-height: 1;
         }
 
         input[type="submit"] {
@@ -244,7 +286,7 @@
             min-height: 0;
         }
 
-        /* 3-card layout: Profile full-width top, Tutors+Requests bottom row */
+        /* 3-card layout */
         .big-nav-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -287,17 +329,18 @@
         }
         .big-nav-card:hover::after { background: #C0392B; }
 
-        /* softer accent card — muted navy-slate instead of harsh red */
         .big-nav-card.card-accent {
-            background: #3A5BA0;  /* change this */
-            border-color: #3A5BA0; /* and this to match */
+            background: #3A5BA0;
+            border-color: #3A5BA0;
+            box-shadow: 0 6px 22px rgba(58,91,160,0.28);
         }
-            .big-nav-card.card-accent:hover {
-                background: #162550; /* change this too, make it slightly darker than your chosen color */
-                border-color: #162550;
-                transform: translateY(-2px);
-            }
-                .big-nav-card.card-accent::after { background: transparent; }
+        .big-nav-card.card-accent:hover {
+            background: #2E4A8A;
+            border-color: #2E4A8A;
+            box-shadow: 0 10px 32px rgba(58,91,160,0.36);
+            transform: translateY(-2px);
+        }
+        .big-nav-card.card-accent::after { background: transparent; }
 
         .bnc-icon {
             width: 52px; height: 52px;
@@ -369,15 +412,29 @@
                 <div class="sidebar-username">PairEd Dashboard</div>
                 <div class="sidebar-role">Student Skill-Sharing</div>
             </div>
-            <div class="sidebar-nav-label">Navigation</div>
-            <asp:Button ID="btnAddSkills" runat="server" Text="🎯  My Skills"
-                CssClass="aspx-navlink" PostBackUrl="~/Pages/ManageSkills.aspx" Visible="false" />
-            <asp:Button ID="btnProfile" runat="server" Text="👤  Profile"
-                CssClass="aspx-navlink" PostBackUrl="~/Pages/Profile.aspx" Visible="false" />
-            <asp:Button ID="btnTutors" runat="server" Text="🔍  Find Tutors"
-                CssClass="aspx-navlink" PostBackUrl="~/Pages/Tutors.aspx" Visible="false" />
-            <asp:Button ID="btnRequests" runat="server" Text="📋  Requests"
-                CssClass="aspx-navlink" PostBackUrl="~/Pages/Requests.aspx" Visible="false" />
+
+            <div class="sidebar-nav">
+                <div class="sidebar-nav-label">Navigation</div>
+                <asp:Button ID="btnAddSkills" runat="server" Text="🎯  My Skills"
+                    CssClass="aspx-navlink" PostBackUrl="~/Pages/ManageSkills.aspx" Visible="false" />
+                <asp:Button ID="btnProfile" runat="server" Text="👤  Profile"
+                    CssClass="aspx-navlink" PostBackUrl="~/Pages/Profile.aspx" Visible="false" />
+                <asp:Button ID="btnTutors" runat="server" Text="🔍  Find Tutors"
+                    CssClass="aspx-navlink" PostBackUrl="~/Pages/Tutors.aspx" Visible="false" />
+                <asp:Button ID="btnRequests" runat="server" Text="📋  Requests"
+                    CssClass="aspx-navlink" PostBackUrl="~/Pages/Requests.aspx" Visible="false" />
+
+                <!-- spacer pushes logout to bottom -->
+                <div class="sidebar-spacer"></div>
+
+                <!-- LOGOUT pinned to bottom -->
+                <div class="sidebar-logout">
+                    <a href='<%= ResolveUrl("~/Pages/Logout.aspx") %>'>
+                        <span class="sidebar-logout-icon">🚪</span>
+                        Logout
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- MAIN -->
@@ -416,7 +473,6 @@
                     <span class="section-label">Quick Access</span>
                     <div class="big-nav-grid">
 
-                        <!-- Row 1: My Profile full width -->
                         <a href='<%= ResolveUrl("~/Pages/Profile.aspx") %>' class="big-nav-card span-full">
                             <div class="bnc-icon">👤</div>
                             <div class="bnc-body">
@@ -426,7 +482,6 @@
                             </div>
                         </a>
 
-                        <!-- Row 2: Find Tutors (accent) | Requests -->
                         <a href='<%= ResolveUrl("~/Pages/Tutors.aspx") %>' class="big-nav-card card-accent">
                             <div class="bnc-icon">🔍</div>
                             <div class="bnc-body">
@@ -436,7 +491,7 @@
                             </div>
                         </a>
 
-                        <a href='<%= ResolveUrl("~/Pages/IncomingRequests.aspx") %>' class="big-nav-card">
+                        <a href='<%= ResolveUrl("~/Pages/Requests.aspx") %>' class="big-nav-card">
                             <div class="bnc-icon">📋</div>
                             <div class="bnc-body">
                                 <div class="bnc-title">Requests</div>

@@ -160,7 +160,7 @@
                 Text="Log In Again"
                 CssClass="btn-primary" />
             <asp:HyperLink ID="lnkHome" runat="server"
-                NavigateUrl="~/Pages/Default.aspx"
+                NavigateUrl="~/Pages/LandingPage.aspx"
                 Text="Return to Home"
                 CssClass="btn-secondary" />
         </div>
