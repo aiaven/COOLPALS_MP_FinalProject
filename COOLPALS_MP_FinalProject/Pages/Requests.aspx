@@ -30,6 +30,7 @@
             flex-shrink: 0;
         }
         .nav-brand { display: flex; align-items: center; gap: 16px; }
+        .nav-logo { height: 52px; width: auto;}
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -247,9 +248,10 @@
         <%-- NAV --%>
         <nav class="nav">
             <div class="nav-brand">
+                <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
                 <span class="nav-site-name">Pair<span>Ed</span></span>
-                <span class="nav-tag">Peer Tutoring</span>
             </div>
+            <span class="nav-tag">Student Skill-Sharing Platform</span>
         </nav>
 
         <%-- PAGE --%>

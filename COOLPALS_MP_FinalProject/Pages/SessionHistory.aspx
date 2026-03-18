@@ -30,6 +30,7 @@
             flex-shrink: 0;
         }
         .nav-brand { display: flex; align-items: center; gap: 16px; }
+        .nav-logo { height: 52px; width: auto; }
         .nav-site-name {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -172,8 +173,8 @@
     <form id="form1" runat="server">
         <nav class="nav">
             <div class="nav-brand">
+                <img src='../Images/PairEdLogo.png' alt="PairEd Logo" class="nav-logo" />
                 <span class="nav-site-name">Pair<span>Ed</span></span>
-                <span class="nav-tag">Peer Tutoring</span>
             </div>
             <div class="nav-right">
                 <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Pages/Default.aspx" Text="← Back to Home" />
