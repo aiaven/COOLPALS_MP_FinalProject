@@ -236,7 +236,6 @@
     </div>
 
     <div class="page">
-        <!-- LEFT 70% -->
         <div class="left" style='background-image: url("<%= ResolveUrl("~/Images/backphoto.jpg") %>"); background-size: cover; background-position: center;'>
             <div class="left-overlay"></div>
             <div class="left-content">
@@ -268,7 +267,6 @@
             </div>
         </div>
 
-        <!-- RIGHT 30% — plain HTML links, no code-behind needed -->
         <div class="right">
             <div class="right-inner">
                 <div class="right-accent"></div>

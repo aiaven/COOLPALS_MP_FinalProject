@@ -47,7 +47,7 @@
             font-weight: 500;
         }
 
-        /* PAGE — full background photo */
+        /* PAGE */
         .page {
             flex: 1;
             position: relative;
@@ -258,7 +258,7 @@
             <span class="nav-tag">Student Skill-Sharing Platform</span>
         </nav>
 
-        <!-- PAGE: full background photo -->
+        <!-- PAGE -->
         <div class="page" style='background-image: url("<%= ResolveUrl("~/Images/backphoto.jpg") %>"); background-size: cover; background-position: center;'>
             <div class="page-overlay"></div>
 

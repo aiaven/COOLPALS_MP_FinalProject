@@ -82,8 +82,6 @@ namespace COOLPALS_MP_FinalProject
 
                     lblMessage.ForeColor = System.Drawing.Color.Green;
                     lblMessage.Text = "Registration successful! Please login.";
-
-                    // Optional: clear fields
                     txtFirstName.Text = "";
                     txtLastName.Text = "";
                     txtEmail.Text = "";

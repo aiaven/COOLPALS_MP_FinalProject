@@ -95,7 +95,7 @@ namespace COOLPALS_MP_FinalProject
                 cmd.ExecuteNonQuery();
             }
 
-            LoadRequests(); // refresh grid
+            LoadRequests(); 
         }
 
         private void CancelRequest(int requestId)

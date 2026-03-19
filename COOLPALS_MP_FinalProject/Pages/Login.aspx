@@ -51,21 +51,17 @@
             flex: 1;
             display: grid;
             grid-template-columns: 70% 30%;
-            /* key: no overflow hidden, grid row fills remaining height */
             min-height: 0;
         }
 
-        /* LEFT — fully fills its grid cell, strip pinned to bottom */
         .left {
             position: relative;
             display: flex;
             flex-direction: column;
-            /* no padding-bottom — strip sits flush at the very bottom */
             padding: 72px 110px 0 110px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* fill the full grid cell height */
             align-self: stretch;
         }
         .left-overlay {
@@ -78,7 +74,6 @@
             position: relative;
             z-index: 2;
             max-width: 780px;
-            /* pushes strip to bottom */
             flex: 1;
         }
         .badge {
@@ -126,7 +121,6 @@
             border-radius: 99px;
         }
 
-        /* Strip pinned flush to the bottom — negative margins pull it out of padding */
         .about-strip {
             position: relative;
             z-index: 2;
@@ -134,7 +128,6 @@
             align-items: center;
             background: rgba(255,255,255,0.06);
             border-top: 1px solid rgba(255,255,255,0.10);
-            /* pull left/right flush, no bottom gap */
             margin: 0 -110px;
             padding: 28px 110px;
             flex-shrink: 0;

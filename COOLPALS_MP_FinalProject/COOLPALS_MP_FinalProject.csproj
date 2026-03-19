@@ -112,7 +112,6 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="CSS.css" />
     <Content Include="Images\backphoto.jpg" />
     <Content Include="Images\default-profile.png" />
     <Content Include="Images\PairEdLogo.png" />

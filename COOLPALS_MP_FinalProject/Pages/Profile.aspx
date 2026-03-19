@@ -218,7 +218,7 @@
             min-height: 100px;
         }
 
-        /* SELECT WRAPPER — fixes ASP.NET dropdown rendering */
+        /* SELECT WRAPPER */
         .select-wrapper {
             position: relative;
             width: 100%;

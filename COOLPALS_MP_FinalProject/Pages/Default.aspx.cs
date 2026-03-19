@@ -136,7 +136,7 @@ namespace COOLPALS_MP_FinalProject
 
                     conn.Open();
                     int count = (int)cmd.ExecuteScalar();
-                    return count == 0; // New user if no skills yet
+                    return count == 0; 
                 }
             }
             catch

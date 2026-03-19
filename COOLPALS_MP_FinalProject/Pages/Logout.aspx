@@ -19,7 +19,6 @@
             justify-content: center;
         }
 
-        /* subtle dot grid background */
         body::before {
             content: '';
             position: fixed;
